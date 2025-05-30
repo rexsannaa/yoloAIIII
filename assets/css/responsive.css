@@ -1,0 +1,716 @@
+/* responsive.css - 響應式樣式 */
+
+/* Mobile First 設計 - 320px 起始 */
+
+/* 小型手機 (320px - 479px) */
+@media (max-width: 479px) {
+    /* 導航列適配 */
+    .nav-container {
+        padding: 0 var(--spacing-md);
+    }
+    
+    .nav-brand h1 {
+        font-size: var(--text-lg);
+    }
+    
+    .nav-menu {
+        gap: var(--spacing-sm);
+    }
+    
+    .nav-link {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: var(--text-xs);
+    }
+    
+    /* 應用程式容器 */
+    .app-container {
+        padding: var(--spacing-lg) var(--spacing-md);
+    }
+    
+    /* 級別介紹卡片 */
+    .level-overview {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    .level-card {
+        padding: var(--spacing-md);
+    }
+    
+    .level-card .level-badge {
+        width: 40px;
+        height: 40px;
+        font-size: var(--text-sm);
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .level-card h3 {
+        font-size: var(--text-base);
+    }
+    
+    .level-card p {
+        font-size: var(--text-xs);
+    }
+    
+    /* 問題容器適配 */
+    .question-container {
+        padding: var(--spacing-lg);
+    }
+    
+    .question-content h3 {
+        font-size: var(--text-lg);
+    }
+    
+    /* 測驗結果適配 */
+    .level-result {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+    
+    .final-level-badge {
+        width: 80px;
+        height: 80px;
+        font-size: var(--text-2xl);
+    }
+    
+    /* 能力分數顯示 */
+    .ability-scores {
+        grid-template-columns: 1fr;
+    }
+    
+    /* 單詞卡片適配 */
+    .flashcard-3d {
+        height: 280px;
+    }
+    
+    .word-main {
+        font-size: var(--text-3xl);
+    }
+    
+    .word-meaning {
+        font-size: var(--text-xl);
+    }
+    
+    /* 閱讀模組適配 */
+    .reading-module .module-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .reading-controls {
+        order: -1;
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .content-bilingual {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .content-english {
+        border-right: none;
+        border-bottom: 1px solid var(--border-light);
+        padding-right: 0;
+        padding-bottom: var(--spacing-lg);
+    }
+    
+    /* 測驗適配 */
+    .quiz-progress {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .quiz-controls {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .score-display {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+    }
+    
+    .score-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .score-circle::before {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .score-percentage {
+        font-size: var(--text-xl);
+    }
+    
+    /* 海報適配 */
+    .level-achievement {
+        flex-direction: column;
+        gap: var(--spacing-lg);
+        text-align: center;
+    }
+    
+    .achievement-text {
+        text-align: center;
+    }
+    
+    .learning-stats {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .progress-timeline {
+        flex-wrap: wrap;
+        gap: var(--spacing-sm);
+    }
+    
+    .timeline-item {
+        flex: 1;
+        min-width: 60px;
+    }
+    
+    .timeline-badge {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+    
+    /* 全域進度指示器 */
+    .progress-steps {
+        gap: var(--spacing-sm);
+    }
+    
+    .step span {
+        display: none;
+    }
+    
+    /* 模態框適配 */
+    .modal-content {
+        width: 95%;
+        margin: var(--spacing-md);
+    }
+    
+    .modal-header,
+    .modal-body,
+    .modal-footer {
+        padding: var(--spacing-md);
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+}
+
+/* 大型手機 (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+    /* 級別介紹卡片 */
+    .level-overview {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* 閱讀內容保持雙欄 */
+    .content-bilingual {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .content-english {
+        border-right: 1px solid var(--border-light);
+        border-bottom: none;
+        padding-right: var(--spacing-lg);
+        padding-bottom: 0;
+    }
+    
+    /* 測驗控制恢復水平排列 */
+    .quiz-controls {
+        flex-direction: row;
+    }
+    
+    /* 海報恢復水平排列 */
+    .level-achievement {
+        flex-direction: row;
+        text-align: left;
+    }
+    
+    .achievement-text {
+        text-align: left;
+    }
+    
+    .learning-stats {
+        flex-direction: row;
+    }
+    
+    /* 進度指示器顯示文字 */
+    .step span {
+        display: block;
+    }
+}
+
+/* 平板電腦 (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    /* 導航列 */
+    .nav-container {
+        padding: 0 var(--spacing-xl);
+    }
+    
+    /* 應用程式容器 */
+    .app-container {
+        padding: var(--spacing-2xl) var(--spacing-xl);
+    }
+    
+    /* 級別介紹保持3欄 */
+    .level-overview {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-xl);
+    }
+    
+    /* 問題容器 */
+    .question-container {
+        padding: var(--spacing-2xl);
+    }
+    
+    /* 單詞卡片 */
+    .flashcard-3d {
+        height: 320px;
+    }
+    
+    /* 閱讀模組 */
+    .reading-module .module-header {
+        flex-direction: row;
+        text-align: left;
+    }
+    
+    .reading-controls {
+        order: 0;
+        margin-bottom: 0;
+    }
+    
+    /* 能力雷達圖 */
+    .ability-radar {
+        width: 250px;
+        height: 250px;
+    }
+    
+    /* 能力分數 */
+    .ability-scores {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 測驗進度 */
+    .quiz-progress {
+        flex-direction: row;
+    }
+    
+    /* 分析網格 */
+    .analysis-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 海報統計 */
+    .learning-stats {
+        justify-content: space-between;
+    }
+}
+
+/* 小型桌面 (1024px - 1279px) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+    /* 應用程式容器最大寬度 */
+    .app-container {
+        max-width: 960px;
+        padding: var(--spacing-2xl);
+    }
+    
+    /* 級別介紹改為2行3列 */
+    .level-overview {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-xl);
+    }
+    
+    /* 問題和選項容器 */
+    .question-container {
+        padding: var(--spacing-2xl) var(--spacing-2xl);
+    }
+    
+    /* 單詞卡片恢復完整大小 */
+    .flashcard-3d {
+        height: 350px;
+    }
+    
+    /* 能力雷達圖恢復標準大小 */
+    .ability-radar {
+        width: 300px;
+        height: 300px;
+    }
+    
+    /* 閱讀內容增加字體大小 */
+    .content-display {
+        font-size: var(--text-lg);
+        line-height: 1.8;
+    }
+    
+    /* 測驗結果網格 */
+    .ability-scores {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .analysis-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 大型桌面 (1280px+) */
+@media (min-width: 1280px) {
+    /* 應用程式容器 */
+    .app-container {
+        max-width: 1200px;
+        padding: var(--spacing-2xl);
+    }
+    
+    /* 級別介紹恢復單行6個 */
+    .level-overview {
+        grid-template-columns: repeat(6, 1fr);
+        gap: var(--spacing-lg);
+    }
+    
+    /* 測驗結果布局優化 */
+    .level-result {
+        justify-content: center;
+    }
+    
+    /* 能力分數網格 */
+    .ability-scores {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-xl);
+    }
+    
+    /* 閱讀控制項優化 */
+    .reading-controls {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--spacing-xl);
+    }
+    
+    /* 分析網格 */
+    .analysis-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-lg);
+    }
+    
+    /* 海報優化 */
+    .poster-canvas {
+        padding: var(--spacing-2xl) var(--spacing-2xl);
+    }
+    
+    .learning-stats {
+        padding: var(--spacing-xl) var(--spacing-2xl);
+    }
+}
+
+/* 超大螢幕 (1440px+) */
+@media (min-width: 1440px) {
+    /* 增加整體最大寬度 */
+    .app-container {
+        max-width: 1400px;
+    }
+    
+    .nav-container {
+        max-width: 1400px;
+    }
+    
+    /* 級別卡片間距增加 */
+    .level-overview {
+        gap: var(--spacing-xl);
+    }
+    
+    /* 問題容器更寬鬆 */
+    .question-container {
+        padding: var(--spacing-2xl) 4rem;
+    }
+    
+    /* 閱讀內容優化 */
+    .content-display {
+        padding: var(--spacing-2xl) 4rem;
+        font-size: var(--text-xl);
+        line-height: 1.9;
+    }
+    
+    /* 海報內容更寬鬆 */
+    .poster-canvas {
+        padding: 4rem;
+    }
+}
+
+/* 橫向模式優化 (Landscape) */
+@media (orientation: landscape) and (max-height: 600px) {
+    /* 導航列縮減高度 */
+    .nav-container {
+        min-height: 48px;
+    }
+    
+    .nav-brand h1 {
+        font-size: var(--text-lg);
+    }
+    
+    /* 應用程式容器減少垂直間距 */
+    .app-container {
+        padding-top: var(--spacing-lg);
+        padding-bottom: var(--spacing-lg);
+    }
+    
+    /* 模組標題減少間距 */
+    .module-header {
+        margin-bottom: var(--spacing-lg);
+        padding-bottom: var(--spacing-sm);
+    }
+    
+    /* 單詞卡片高度調整 */
+    .flashcard-3d {
+        height: 250px;
+    }
+    
+    /* 問題容器緊湊化 */
+    .question-container {
+        padding: var(--spacing-lg) var(--spacing-xl);
+    }
+    
+    /* 能力雷達圖縮小 */
+    .ability-radar {
+        width: 200px;
+        height: 200px;
+    }
+    
+    /* 海報緊湊化 */
+    .poster-canvas {
+        padding: var(--spacing-xl);
+    }
+    
+    /* 全域進度指示器 */
+    .global-progress {
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+    
+    .step-number {
+        width: 28px;
+        height: 28px;
+        font-size: var(--text-xs);
+    }
+    
+    .step span {
+        font-size: 10px;
+    }
+}
+
+/* 高解析度螢幕優化 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* 提升文字清晰度 */
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* 邊框優化 */
+    .card,
+    .question-container,
+    .flashcard-front,
+    .flashcard-back {
+        border: 0.5px solid var(--border-light);
+    }
+    
+    /* 陰影優化 */
+    .card:hover {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+    
+    .poster-canvas {
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    }
+}
+
+/* 深色模式支援 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: #1e293b;
+        --bg-secondary: #0f172a;
+        --bg-tertiary: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-light: #64748b;
+        --border-light: #334155;
+        --border-medium: #475569;
+        --border-dark: #64748b;
+    }
+    
+    /* 調整卡片陰影 */
+    .card {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+    
+    .card:hover {
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* 調整模態框 */
+    .modal {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+    
+    /* 調整按鈕 */
+    .btn-secondary {
+        background-color: var(--bg-tertiary);
+        border-color: var(--border-medium);
+        color: var(--text-primary);
+    }
+    
+    /* 調整輸入框 */
+    input, textarea, select {
+        background-color: var(--bg-tertiary);
+        border-color: var(--border-medium);
+        color: var(--text-primary);
+    }
+}
+
+/* 減少動畫偏好設定 */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .flashcard-front,
+    .flashcard-back {
+        transition: none;
+    }
+    
+    .progress-fill::after {
+        animation: none;
+    }
+    
+    .timeline-item.current .timeline-badge {
+        animation: none;
+    }
+}
+
+/* 高對比度模式 */
+@media (prefers-contrast: high) {
+    :root {
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.4);
+        --shadow-lg: 0 15px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* 增強邊框對比 */
+    .card,
+    .question-container,
+    .option-label {
+        border: 2px solid var(--border-dark);
+    }
+    
+    /* 增強按鈕對比 */
+    .btn {
+        border: 2px solid currentColor;
+    }
+    
+    /* 增強文字對比 */
+    .level-badge {
+        border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+}
+
+/* 觸控設備優化 */
+@media (pointer: coarse) {
+    /* 增加可點擊區域 */
+    .btn {
+        min-height: 48px;
+        padding: var(--spacing-md) var(--spacing-xl);
+    }
+    
+    .nav-link {
+        min-height: 44px;
+        padding: var(--spacing-sm) var(--spacing-lg);
+    }
+    
+    .option-label {
+        min-height: 48px;
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+    
+    .level-card {
+        min-height: 120px;
+    }
+    
+    /* 增加滑桿大小 */
+    input[type="range"]::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+    }
+    
+    input[type="range"]::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+    }
+    
+    /* 增加單選按鈕大小 */
+    input[type="radio"] {
+        width: 24px;
+        height: 24px;
+        min-height: 24px;
+    }
+}
+
+/* 列印樣式 */
+@media print {
+    /* 隱藏互動元素 */
+    .main-nav,
+    .global-progress,
+    .btn,
+    .modal,
+    .loading-overlay {
+        display: none !important;
+    }
+    
+    /* 調整頁面布局 */
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+        line-height: 1.4;
+    }
+    
+    .app-container {
+        max-width: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    /* 確保內容可見 */
+    .module {
+        display: block !important;
+        page-break-after: always;
+    }
+    
+    /* 海報列印優化 */
+    .poster-canvas {
+        background: white !important;
+        color: black !important;
+        box-shadow: none;
+        border: 2px solid black;
+    }
+    
+    /* 隱藏背景色和陰影 */
+    * {
+        background: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    
+    /* 保持重要的背景色 */
+    .level-badge,
+    .achievement-badge {
+        background: black !important;
+        color: white !important;
+    }
+}

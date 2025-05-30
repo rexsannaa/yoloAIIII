@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CEFR分級英語學習網站生成系統</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/modules.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+    <!-- 導航列 -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>CEFR 英語學習</h1>
+                <span class="level-indicator" id="userLevelBadge">未測試</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#assessment" class="nav-link active" data-module="assessment">分級測驗</a></li>
+                <li><a href="#flashcard" class="nav-link" data-module="flashcard">單詞卡片</a></li>
+                <li><a href="#reading" class="nav-link" data-module="reading">閱讀理解</a></li>
+                <li><a href="#quiz" class="nav-link" data-module="quiz">理解測試</a></li>
+                <li><a href="#poster" class="nav-link" data-module="poster">成就海報</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要內容區域 -->
+    <main class="app-container">
+        <!-- 0. CEFR分級測驗模組 -->
+        <section id="assessment-module" class="module active">
+            <div class="module-header">
+                <h2>CEFR 英語水平測試</h2>
+                <p>透過智能評估確定您的英語水平級別</p>
+            </div>
+            
+            <!-- 級別介紹 -->
+            <div class="level-overview">
+                <div class="level-card" data-level="A1">
+                    <div class="level-badge a1">A1</div>
+                    <h3>初級</h3>
+                    <p>基礎日常表達 (500-1000詞彙)</p>
+                </div>
+                <div class="level-card" data-level="A2">
+                    <div class="level-badge a2">A2</div>
+                    <h3>中初級</h3>
+                    <p>簡單交流對話 (1000-2000詞彙)</p>
+                </div>
+                <div class="level-card" data-level="B1">
+                    <div class="level-badge b1">B1</div>
+                    <h3>中級</h3>
+                    <p>熟悉主題表達 (2000-3000詞彙)</p>
+                </div>
+                <div class="level-card" data-level="B2">
+                    <div class="level-badge b2">B2</div>
+                    <h3>中高級</h3>
+                    <p>流利詳細表達 (3000-4000詞彙)</p>
+                </div>
+                <div class="level-card" data-level="C1">
+                    <div class="level-badge c1">C1</div>
+                    <h3>進階級</h3>
+                    <p>靈活有效運用 (4000-6000詞彙)</p>
+                </div>
+                <div class="level-card" data-level="C2">
+                    <div class="level-badge c2">C2</div>
+                    <h3>熟練級</h3>
+                    <p>精細含義區分 (6000+詞彙)</p>
+                </div>
+            </div>
+
+            <!-- 測驗區域 -->
+            <div class="assessment-test" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                    <span class="progress-text">1 / 15</span>
+                </div>
+                
+                <div class="question-container">
+                    <div class="question-header">
+                        <span class="question-type">詞彙測試</span>
+                        <span class="question-level">A1-A2</span>
+                    </div>
+                    <div class="question-content">
+                        <h3 id="questionText">載入中...</h3>
+                        <div class="options-container" id="optionsContainer">
+                            <!-- 選項將由JavaScript動態生成 -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="test-controls">
+                    <button id="prevQuestion" class="btn btn-secondary" disabled>上一題</button>
+                    <button id="nextQuestion" class="btn btn-primary">下一題</button>
+                    <button id="finishTest" class="btn btn-success" style="display: none;">完成測試</button>
+                </div>
+            </div>
+
+            <!-- 測驗結果 -->
+            <div class="assessment-result" style="display: none;">
+                <div class="result-header">
+                    <div class="level-result">
+                        <div class="final-level-badge" id="finalLevelBadge">B2</div>
+                        <div class="level-description">
+                            <h3 id="levelTitle">中高級</h3>
+                            <p id="levelDescription">您能流利且詳細地表達想法</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 能力雷達圖 -->
+                <div class="ability-radar-container">
+                    <h4>能力分析</h4>
+                    <div class="ability-radar" id="abilityRadar">
+                        <!-- 雷達圖將由JavaScript生成 -->
+                    </div>
+                    <div class="ability-scores">
+                        <div class="ability-item">
+                            <span class="ability-name">詞彙掌握</span>
+                            <div class="ability-bar">
+                                <div class="ability-fill" data-ability="vocabulary"></div>
+                            </div>
+                            <span class="ability-score" id="vocabScore">85%</span>
+                        </div>
+                        <div class="ability-item">
+                            <span class="ability-name">語法理解</span>
+                            <div class="ability-bar">
+                                <div class="ability-fill" data-ability="grammar"></div>
+                            </div>
+                            <span class="ability-score" id="grammarScore">78%</span>
+                        </div>
+                        <div class="ability-item">
+                            <span class="ability-name">閱讀理解</span>
+                            <div class="ability-bar">
+                                <div class="ability-fill" data-ability="comprehension"></div>
+                            </div>
+                            <span class="ability-score" id="comprehensionScore">82%</span>
+                        </div>
+                        <div class="ability-item">
+                            <span class="ability-name">邏輯推理</span>
+                            <div class="ability-bar">
+                                <div class="ability-fill" data-ability="reasoning"></div>
+                            </div>
+                            <span class="ability-score" id="reasoningScore">76%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="learning-recommendations">
+                    <h4>個人化學習建議</h4>
+                    <div class="recommendation-list" id="recommendationList">
+                        <!-- 建議將由JavaScript生成 -->
+                    </div>
+                </div>
+                
+                <button id="startLearning" class="btn btn-primary btn-large">開始個性化學習</button>
+            </div>
+            
+            <div class="assessment-intro">
+                <button id="startAssessment" class="btn btn-primary btn-large">開始CEFR水平測試</button>
+            </div>
+        </section>
+
+        <!-- 1. 智能單詞卡片模組 -->
+        <section id="flashcard-module" class="module">
+            <div class="module-header">
+                <h2>智能單詞卡片</h2>
+                <div class="level-info">
+                    <span>當前級別：</span>
+                    <span class="current-level" id="flashcardLevel">B2</span>
+                </div>
+            </div>
+            
+            <div class="flashcard-container">
+                <div class="flashcard-3d" id="flashcard3D">
+                    <div class="flashcard-front">
+                        <div class="word-level-badge" id="wordLevelBadge">B2</div>
+                        <div class="word-main" id="wordMain">beautiful</div>
+                        <div class="word-phonetic" id="wordPhonetic">/ˈbjuːtɪfʊl/</div>
+                    </div>
+                    <div class="flashcard-back">
+                        <div class="word-meaning" id="wordMeaning">美麗的，漂亮的</div>
+                        <div class="word-etymology" id="wordEtymology">來自古法語 beaute</div>
+                        <div class="word-example">
+                            <div class="example-english" id="exampleEnglish">She has beautiful eyes.</div>
+                            <div class="example-chinese" id="exampleChinese">她有美麗的眼睛。</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flashcard-controls">
+                    <button id="prevCard" class="btn btn-secondary">上一張</button>
+                    <button id="flipCard" class="btn btn-primary">翻轉</button>
+                    <button id="nextCard" class="btn btn-secondary">下一張</button>
+                </div>
+                
+                <div class="flashcard-progress">
+                    <div class="progress-info">
+                        <span>進度：</span>
+                        <span id="cardProgress">1 / 20</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="cardProgressFill"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 多模式閱讀模組 -->
+        <section id="reading-module" class="module">
+            <div class="module-header">
+                <h2>多模式閱讀</h2>
+                <div class="reading-controls">
+                    <div class="mode-selector">
+                        <button class="mode-btn active" data-mode="bilingual">雙語對照</button>
+                        <button class="mode-btn" data-mode="english">純英文</button>
+                        <button class="mode-btn" data-mode="chinese">純中文</button>
+                    </div>
+                    <div class="difficulty-adjuster">
+                        <label>難度調整：</label>
+                        <input type="range" id="difficultySlider" min="1" max="6" value="4">
+                        <span id="difficultyLevel">B2</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="reading-content">
+                <div class="content-display" id="readingDisplay">
+                    <div class="content-bilingual">
+                        <div class="content-english" id="contentEnglish">
+                            <p>The rapid advancement of artificial intelligence has transformed the way we work and live. <span class="word-highlight b2" data-word="advancement">Advancement</span> in machine learning algorithms enables computers to perform tasks that were once thought to be exclusively human. However, this technological <span class="word-highlight c1" data-word="revolution">revolution</span> also raises important questions about the future of employment and society.</p>
+                        </div>
+                        <div class="content-chinese" id="contentChinese">
+                            <p>人工智慧的快速進步改變了我們工作和生活的方式。機器學習演算法的進步使電腦能夠執行曾經被認為是人類專有的任務。然而，這場技術革命也引發了關於就業和社會未來的重要問題。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 單詞提示框 -->
+                <div class="word-tooltip" id="wordTooltip" style="display: none;">
+                    <div class="tooltip-word"></div>
+                    <div class="tooltip-phonetic"></div>
+                    <div class="tooltip-meaning"></div>
+                    <div class="tooltip-level"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 理解測試評估模組 -->
+        <section id="quiz-module" class="module">
+            <div class="module-header">
+                <h2>理解測試</h2>
+                <div class="quiz-info">
+                    <span class="quiz-level">適應級別：<span id="quizLevel">B2</span></span>
+                </div>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="quiz-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="quizProgressFill"></div>
+                    </div>
+                    <span class="progress-text" id="quizProgressText">1 / 10</span>
+                </div>
+                
+                <div class="quiz-question">
+                    <div class="question-type-badge" id="questionTypeBadge">閱讀理解</div>
+                    <div class="question-content">
+                        <div class="question-text" id="quizQuestionText">
+                            根據剛才的閱讀內容，人工智慧的進步主要影響了什麼？
+                        </div>
+                        <div class="question-options" id="quizOptionsContainer">
+                            <label class="option-label">
+                                <input type="radio" name="quiz-answer" value="A">
+                                <span class="option-text">僅影響工作方式</span>
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="quiz-answer" value="B">
+                                <span class="option-text">工作和生活方式都受到影響</span>
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="quiz-answer" value="C">
+                                <span class="option-text">主要影響娛樂方式</span>
+                            </label>
+                            <label class="option-label">
+                                <input type="radio" name="quiz-answer" value="D">
+                                <span class="option-text">沒有實質影響</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="quiz-feedback" id="quizFeedback" style="display: none;">
+                    <div class="feedback-result">
+                        <span class="feedback-icon">✓</span>
+                        <span class="feedback-text">答對了！</span>
+                    </div>
+                    <div class="feedback-explanation">
+                        根據文章內容，人工智慧的進步確實改變了我們的工作和生活方式。
+                    </div>
+                </div>
+                
+                <div class="quiz-controls">
+                    <button id="prevQuizQuestion" class="btn btn-secondary" disabled>上一題</button>
+                    <button id="submitAnswer" class="btn btn-primary">提交答案</button>
+                    <button id="nextQuizQuestion" class="btn btn-primary" style="display: none;">下一題</button>
+                    <button id="finishQuiz" class="btn btn-success" style="display: none;">完成測試</button>
+                </div>
+            </div>
+            
+            <!-- 測驗結果 -->
+            <div class="quiz-results" id="quizResults" style="display: none;">
+                <div class="results-summary">
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <span class="score-percentage" id="scorePercentage">85%</span>
+                        </div>
+                        <div class="score-details">
+                            <p>正確率：<span id="correctRate">85%</span></p>
+                            <p>答對題數：<span id="correctCount">8</span> / <span id="totalCount">10</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="ability-analysis">
+                        <h4>能力分析</h4>
+                        <div class="analysis-grid">
+                            <div class="analysis-item">
+                                <span class="analysis-label">詞彙理解</span>
+                                <div class="analysis-bar">
+                                    <div class="analysis-fill" style="width: 90%"></div>
+                                </div>
+                                <span class="analysis-score">90%</span>
+                            </div>
+                            <div class="analysis-item">
+                                <span class="analysis-label">語法應用</span>
+                                <div class="analysis-bar">
+                                    <div class="analysis-fill" style="width: 80%"></div>
+                                </div>
+                                <span class="analysis-score">80%</span>
+                            </div>
+                            <div class="analysis-item">
+                                <span class="analysis-label">閱讀理解</span>
+                                <div class="analysis-bar">
+                                    <div class="analysis-fill" style="width: 85%"></div>
+                                </div>
+                                <span class="analysis-score">85%</span>
+                            </div>
+                            <div class="analysis-item">
+                                <span class="analysis-label">邏輯推理</span>
+                                <div class="analysis-bar">
+                                    <div class="analysis-fill" style="width: 75%"></div>
+                                </div>
+                                <span class="analysis-score">75%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="retakeQuiz" class="btn btn-secondary">重新測試</button>
+            </div>
+        </section>
+
+        <!-- 4. 個性化成就海報模組 -->
+        <section id="poster-module" class="module">
+            <div class="module-header">
+                <h2>學習成就海報</h2>
+                <div class="poster-controls">
+                    <select id="posterStyle" class="style-selector">
+                        <option value="modern">現代風格</option>
+                        <option value="classic">經典風格</option>
+                        <option value="minimal">簡約風格</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="poster-container">
+                <div class="poster-canvas" id="posterCanvas">
+                    <div class="poster-header">
+                        <h3>英語學習成就證書</h3>
+                        <div class="certificate-date" id="certificateDate">2024年5月30日</div>
+                    </div>
+                    
+                    <div class="poster-content">
+                        <div class="achievement-main">
+                            <div class="level-achievement">
+                                <div class="achievement-badge" id="achievementBadge">
+                                    <span class="badge-level">B2</span>
+                                </div>
+                                <div class="achievement-text">
+                                    <h4>CEFR B2 中高級</h4>
+                                    <p>流利且詳細地表達想法</p>
+                                </div>
+                            </div>
+                            
+                            <div class="learning-stats">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="vocabularyCount">1,234</div>
+                                    <div class="stat-label">掌握詞彙</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="testScore">85%</div>
+                                    <div class="stat-label">測驗得分</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="studyDays">45</div>
+                                    <div class="stat-label">學習天數</div>
+                                </div>
+                            </div>
+                            
+                            <div class="progress-timeline">
+                                <div class="timeline-item completed">
+                                    <div class="timeline-badge a1">A1</div>
+                                    <span>初級</span>
+                                </div>
+                                <div class="timeline-item completed">
+                                    <div class="timeline-badge a2">A2</div>
+                                    <span>中初級</span>
+                                </div>
+                                <div class="timeline-item completed">
+                                    <div class="timeline-badge b1">B1</div>
+                                    <span>中級</span>
+                                </div>
+                                <div class="timeline-item current">
+                                    <div class="timeline-badge b2">B2</div>
+                                    <span>中高級</span>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-badge c1">C1</div>
+                                    <span>進階級</span>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-badge c2">C2</div>
+                                    <span>熟練級</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="poster-footer">
+                        <div class="signature-line">
+                            <p>CEFR英語學習系統認證</p>
+                            <div class="system-logo">🎓</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="poster-actions">
+                    <button id="downloadPoster" class="btn btn-primary">下載海報</button>
+                    <button id="sharePoster" class="btn btn-secondary">分享成就</button>
+                    <button id="regeneratePoster" class="btn btn-outline">重新生成</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 全域進度指示器 -->
+    <div class="global-progress">
+        <div class="progress-steps">
+            <div class="step completed" data-step="assessment">
+                <div class="step-number">1</div>
+                <span>分級測驗</span>
+            </div>
+            <div class="step active" data-step="flashcard">
+                <div class="step-number">2</div>
+                <span>單詞學習</span>
+            </div>
+            <div class="step" data-step="reading">
+                <div class="step-number">3</div>
+                <span>閱讀理解</span>
+            </div>
+            <div class="step" data-step="quiz">
+                <div class="step-number">4</div>
+                <span>理解測試</span>
+            </div>
+            <div class="step" data-step="poster">
+                <div class="step-number">5</div>
+                <span>成就海報</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 文本輸入模態框 -->
+    <div class="modal" id="textInputModal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>輸入學習文本</h3>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <textarea id="inputText" placeholder="請輸入您想要學習的英語文本內容..." rows="10"></textarea>
+                <div class="text-info">
+                    <span>字數統計：<span id="wordCount">0</span></span>
+                    <span>預估級別：<span id="estimatedLevel">--</span></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelInput" class="btn btn-secondary">取消</button>
+                <button id="processText" class="btn btn-primary">開始處理</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 載入指示器 -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>正在處理文本內容...</p>
+        </div>
+    </div>
+
+    <!-- JavaScript檔案載入 -->
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/assessment.js"></script>
+    <script src="assets/js/flashcard.js"></script>
+    <script src="assets/js/reading.js"></script>
+    <script src="assets/js/quiz.js"></script>
+    <script src="assets/js/poster.js"></script>
+
+    <!-- 應用程式初始化 -->
+    <script>
+        // 應用程式啟動
+        document.addEventListener('DOMContentLoaded', function() {
+            const app = new CEFRLearningApp();
+            app.init();
+        });
+    </script>
+</body>
+</html>
