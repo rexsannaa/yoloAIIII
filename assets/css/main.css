@@ -1,6 +1,8 @@
 /* main.css - 主要樣式 */
 
-/* 全域變數定義 */
+/* ==========================================
+   全域變數定義
+   ========================================== */
 :root {
     /* CEFR級別色彩系統 */
     --level-a1: #4ade80;  /* A1初級 - 淺綠 */
@@ -81,7 +83,9 @@
     --ease-in: cubic-bezier(0.4, 0, 1, 1);
 }
 
-/* 基礎樣式重置 */
+/* ==========================================
+   基礎樣式重置
+   ========================================== */
 * {
     margin: 0;
     padding: 0;
@@ -103,7 +107,9 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* 標題樣式 */
+/* ==========================================
+   標題樣式
+   ========================================== */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
     line-height: 1.2;
@@ -118,13 +124,17 @@ h4 { font-size: var(--text-xl); }
 h5 { font-size: var(--text-lg); }
 h6 { font-size: var(--text-base); }
 
-/* 段落和文字 */
+/* ==========================================
+   段落和文字
+   ========================================== */
 p {
     margin-bottom: var(--spacing-md);
     color: var(--text-secondary);
 }
 
-/* 連結樣式 */
+/* ==========================================
+   連結樣式
+   ========================================== */
 a {
     color: var(--primary-color);
     text-decoration: none;
@@ -136,7 +146,9 @@ a:hover {
     opacity: 0.8;
 }
 
-/* 按鈕基礎樣式 */
+/* ==========================================
+   按鈕基礎樣式
+   ========================================== */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -218,7 +230,9 @@ a:hover {
     min-height: 36px;
 }
 
-/* CEFR級別徽章樣式 */
+/* ==========================================
+   CEFR級別徽章樣式
+   ========================================== */
 .level-badge {
     display: inline-flex;
     align-items: center;
@@ -239,7 +253,9 @@ a:hover {
 .level-badge.c1 { background-color: var(--level-c1); }
 .level-badge.c2 { background-color: var(--level-c2); }
 
-/* 進度條樣式 */
+/* ==========================================
+   進度條樣式
+   ========================================== */
 .progress-bar {
     width: 100%;
     height: 8px;
@@ -278,7 +294,9 @@ a:hover {
     100% { transform: translateX(100%); }
 }
 
-/* 卡片樣式 */
+/* ==========================================
+   卡片樣式
+   ========================================== */
 .card {
     background-color: var(--bg-primary);
     border-radius: var(--radius-lg);
@@ -292,7 +310,9 @@ a:hover {
     transform: translateY(-2px);
 }
 
-/* 輸入元素樣式 */
+/* ==========================================
+   輸入元素樣式
+   ========================================== */
 input, textarea, select {
     font-family: inherit;
     font-size: var(--text-sm);
@@ -353,7 +373,9 @@ input[type="radio"] {
     accent-color: var(--primary-color);
 }
 
-/* 標籤樣式 */
+/* ==========================================
+   標籤樣式
+   ========================================== */
 label {
     font-size: var(--text-sm);
     font-weight: 500;
@@ -361,84 +383,9 @@ label {
     cursor: pointer;
 }
 
-/* 模態框樣式 */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all var(--duration-normal) var(--ease-out);
-}
-
-.modal.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal-content {
-    background-color: var(--bg-primary);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xl);
-    max-width: 600px;
-    width: 90%;
-    max-height: 80vh;
-    overflow: auto;
-    transform: scale(0.9);
-    transition: transform var(--duration-normal) var(--ease-out);
-}
-
-.modal.show .modal-content {
-    transform: scale(1);
-}
-
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: var(--spacing-lg);
-    border-bottom: 1px solid var(--border-light);
-}
-
-.modal-header h3 {
-    margin: 0;
-}
-
-.modal-close {
-    background: none;
-    border: none;
-    font-size: var(--text-2xl);
-    cursor: pointer;
-    color: var(--text-secondary);
-    padding: var(--spacing-xs);
-    line-height: 1;
-}
-
-.modal-close:hover {
-    color: var(--text-primary);
-}
-
-.modal-body {
-    padding: var(--spacing-lg);
-}
-
-.modal-footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--spacing-md);
-    padding: var(--spacing-lg);
-    border-top: 1px solid var(--border-light);
-}
-
-/* 載入動畫 */
+/* ==========================================
+   載入動畫
+   ========================================== */
 .loading-overlay {
     position: fixed;
     top: 0;
@@ -472,39 +419,9 @@ label {
     100% { transform: rotate(360deg); }
 }
 
-/* 工具提示樣式 */
-.tooltip {
-    position: absolute;
-    background-color: var(--bg-dark);
-    color: var(--text-white);
-    padding: var(--spacing-sm) var(--spacing-md);
-    border-radius: var(--radius-md);
-    font-size: var(--text-xs);
-    z-index: 100;
-    box-shadow: var(--shadow-lg);
-    opacity: 0;
-    visibility: hidden;
-    transition: all var(--duration-fast) var(--ease-out);
-    pointer-events: none;
-}
-
-.tooltip.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-.tooltip::after {
-    content: '';
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: var(--bg-dark) transparent transparent transparent;
-}
-
-/* 通用動畫類別 */
+/* ==========================================
+   通用動畫類別
+   ========================================== */
 .fade-in {
     animation: fadeIn var(--duration-normal) var(--ease-out);
 }
@@ -553,7 +470,9 @@ label {
     }
 }
 
-/* 響應式工具類別 */
+/* ==========================================
+   響應式工具類別
+   ========================================== */
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
@@ -570,7 +489,9 @@ label {
 .hidden { display: none !important; }
 .visible { display: block !important; }
 
-/* 間距工具類別 */
+/* ==========================================
+   間距工具類別
+   ========================================== */
 .m-0 { margin: 0; }
 .mt-4 { margin-top: var(--spacing-md); }
 .mb-4 { margin-bottom: var(--spacing-md); }

@@ -212,44 +212,17 @@
         <!-- 2. 多模式閱讀模組 -->
         <section id="reading-module" class="module">
             <div class="module-header">
-                <div>
-                    <h2>多模式閱讀</h2>
-                    <p>智能分級閱讀理解</p>
-                </div>
-                <div class="reading-controls">
-                    <div class="mode-selector">
-                        <button class="mode-btn active" data-mode="bilingual">雙語對照</button>
-                        <button class="mode-btn" data-mode="english">純英文</button>
-                        <button class="mode-btn" data-mode="chinese">純中文</button>
-                    </div>
-                    <div class="difficulty-adjuster">
-                        <label for="difficultySlider">難度調整：</label>
-                        <input type="range" id="difficultySlider" min="1" max="6" value="4">
-                        <span id="difficultyLevel">4</span>
-                    </div>
-                </div>
+                <h2>多模式閱讀</h2>
+                <p>智能分級閱讀理解</p>
             </div>
             
             <div class="reading-content">
                 <div class="content-display" id="contentDisplay">
-                    <div class="content-bilingual">
-                        <div class="content-english">
-                            <h3>AI Technology Revolution</h3>
-                            <p>The rapid advancement of artificial intelligence has transformed the way we work and live. Machine learning algorithms enable computers to perform tasks that were once thought to be exclusively human.</p>
-                        </div>
-                        <div class="content-chinese">
-                            <h3>人工智慧技術革命</h3>
-                            <p>人工智慧的快速進步改變了我們工作和生活的方式。機器學習演算法使電腦能夠執行曾經被認為是人類專有的任務。</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 單詞提示框 -->
-                <div class="word-tooltip" id="wordTooltip">
-                    <div class="tooltip-word"></div>
-                    <div class="tooltip-phonetic"></div>
-                    <div class="tooltip-meaning"></div>
-                    <div class="tooltip-level"></div>
+                    <h3>AI Technology Revolution</h3>
+                    <p>The rapid advancement of artificial intelligence has transformed the way we work and live. Machine learning algorithms enable computers to perform tasks that were once thought to be exclusively human.</p>
+                    <br>
+                    <h3>人工智慧技術革命</h3>
+                    <p>人工智慧的快速進步改變了我們工作和生活的方式。機器學習演算法使電腦能夠執行曾經被認為是人類專有的任務。</p>
                 </div>
             </div>
         </section>
@@ -257,14 +230,8 @@
         <!-- 3. 理解測試評估模組 -->
         <section id="quiz-module" class="module">
             <div class="module-header">
-                <div>
-                    <h2>理解測試</h2>
-                    <p>檢驗您的理解能力</p>
-                </div>
-                <div class="quiz-info">
-                    <span>目標級別：</span>
-                    <span id="quizLevel">B2</span>
-                </div>
+                <h2>理解測試</h2>
+                <p>檢驗您的理解能力</p>
             </div>
             
             <div class="quiz-container">
@@ -276,7 +243,7 @@
                 </div>
                 
                 <div class="quiz-question">
-                    <span class="question-type-badge">閱讀理解</span>
+                    <span class="question-type">閱讀理解</span>
                     <div class="question-text" id="quizQuestionText">
                         根據剛才的閱讀內容，人工智慧的進步主要影響了什麼？
                     </div>
@@ -300,58 +267,9 @@
                     </div>
                 </div>
                 
-                <!-- 測驗反饋 -->
-                <div class="quiz-feedback" id="quizFeedback" style="display: none;">
-                    <div class="feedback-result">
-                        <div class="feedback-icon">✓</div>
-                        <div class="feedback-text">回答正確！</div>
-                    </div>
-                    <div class="feedback-explanation">
-                        根據文章內容，AI的進步確實同時影響了工作和生活方式。
-                    </div>
-                </div>
-                
-                <div class="quiz-controls">
-                    <button id="prevQuizQuestion" class="btn btn-secondary">上一題</button>
+                <div class="test-controls">
                     <button id="checkAnswer" class="btn btn-primary">檢查答案</button>
                     <button id="nextQuizQuestion" class="btn btn-secondary" style="display: none;">下一題</button>
-                    <button id="finishQuiz" class="btn btn-success" style="display: none;">完成測驗</button>
-                </div>
-            </div>
-            
-            <!-- 測驗結果 -->
-            <div class="quiz-results" id="quizResults" style="display: none;">
-                <div class="results-summary">
-                    <div class="score-display">
-                        <div class="score-circle">
-                            <div class="score-percentage">85%</div>
-                        </div>
-                        <div class="score-details">
-                            <p><strong>總分：</strong>8/10</p>
-                            <p><strong>正確率：</strong>80%</p>
-                            <p><strong>級別：</strong>B2</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="ability-analysis">
-                    <h4>能力分析</h4>
-                    <div class="analysis-grid">
-                        <div class="analysis-item">
-                            <span class="analysis-label">理解力</span>
-                            <div class="analysis-bar">
-                                <div class="analysis-fill" style="width: 85%"></div>
-                            </div>
-                            <span class="analysis-score">85%</span>
-                        </div>
-                        <div class="analysis-item">
-                            <span class="analysis-label">推理力</span>
-                            <div class="analysis-bar">
-                                <div class="analysis-fill" style="width: 75%"></div>
-                            </div>
-                            <span class="analysis-score">75%</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -359,15 +277,8 @@
         <!-- 4. 個性化成就海報模組 -->
         <section id="poster-module" class="module">
             <div class="module-header">
-                <div>
-                    <h2>學習成就海報</h2>
-                    <p>展示您的學習成果</p>
-                </div>
-                <select class="style-selector" id="posterStyle">
-                    <option value="modern">現代風格</option>
-                    <option value="classic">經典風格</option>
-                    <option value="minimal">簡約風格</option>
-                </select>
+                <h2>學習成就海報</h2>
+                <p>展示您的學習成果</p>
             </div>
             
             <div class="poster-container">
@@ -403,29 +314,6 @@
                                     <div class="stat-label">學習天數</div>
                                 </div>
                             </div>
-                            
-                            <div class="progress-timeline">
-                                <div class="timeline-item completed">
-                                    <div class="timeline-badge">A1</div>
-                                    <span>初級</span>
-                                </div>
-                                <div class="timeline-item completed">
-                                    <div class="timeline-badge">A2</div>
-                                    <span>中初級</span>
-                                </div>
-                                <div class="timeline-item current">
-                                    <div class="timeline-badge">B2</div>
-                                    <span>中高級</span>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-badge">C1</div>
-                                    <span>進階級</span>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-badge">C2</div>
-                                    <span>熟練級</span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     
@@ -440,7 +328,6 @@
                 <div class="poster-actions">
                     <button id="downloadPoster" class="btn btn-primary">下載海報</button>
                     <button id="sharePoster" class="btn btn-secondary">分享成就</button>
-                    <button id="regeneratePoster" class="btn btn-outline">重新生成</button>
                 </div>
             </div>
         </section>

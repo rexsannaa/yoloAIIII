@@ -1,12 +1,19 @@
 /* responsive.css - 響應式樣式 */
 
-/* Mobile First 設計 - 320px 起始 */
+/* ==========================================
+   Mobile First 設計 - 320px 起始
+   ========================================== */
 
 /* 小型手機 (320px - 479px) */
 @media (max-width: 479px) {
     /* 導航列適配 */
     .nav-container {
         padding: 0 var(--spacing-md);
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        min-height: auto;
+        padding-top: var(--spacing-md);
+        padding-bottom: var(--spacing-md);
     }
     
     .nav-brand h1 {
@@ -93,27 +100,9 @@
     }
     
     /* 閱讀模組適配 */
-    .reading-module .module-header {
-        flex-direction: column;
-        align-items: stretch;
-        text-align: center;
-    }
-    
-    .reading-controls {
-        order: -1;
-        margin-bottom: var(--spacing-lg);
-    }
-    
-    .content-bilingual {
-        grid-template-columns: 1fr;
-        gap: var(--spacing-lg);
-    }
-    
-    .content-english {
-        border-right: none;
-        border-bottom: 1px solid var(--border-light);
-        padding-right: 0;
-        padding-bottom: var(--spacing-lg);
+    .content-display {
+        padding: var(--spacing-lg);
+        font-size: var(--text-base);
     }
     
     /* 測驗適配 */
@@ -122,28 +111,9 @@
         gap: var(--spacing-sm);
     }
     
-    .quiz-controls {
+    .test-controls {
         flex-direction: column;
         gap: var(--spacing-sm);
-    }
-    
-    .score-display {
-        flex-direction: column;
-        gap: var(--spacing-lg);
-    }
-    
-    .score-circle {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .score-circle::before {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .score-percentage {
-        font-size: var(--text-xl);
     }
     
     /* 海報適配 */
@@ -162,22 +132,6 @@
         gap: var(--spacing-md);
     }
     
-    .progress-timeline {
-        flex-wrap: wrap;
-        gap: var(--spacing-sm);
-    }
-    
-    .timeline-item {
-        flex: 1;
-        min-width: 60px;
-    }
-    
-    .timeline-badge {
-        width: 24px;
-        height: 24px;
-        font-size: 10px;
-    }
-    
     /* 全域進度指示器 */
     .progress-steps {
         gap: var(--spacing-sm);
@@ -186,46 +140,25 @@
     .step span {
         display: none;
     }
-    
-    /* 模態框適配 */
-    .modal-content {
-        width: 95%;
-        margin: var(--spacing-md);
-    }
-    
-    .modal-header,
-    .modal-body,
-    .modal-footer {
-        padding: var(--spacing-md);
-    }
-    
-    .modal-footer {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-    }
 }
 
 /* 大型手機 (480px - 767px) */
 @media (min-width: 480px) and (max-width: 767px) {
+    /* 導航列恢復水平布局 */
+    .nav-container {
+        flex-direction: row;
+        padding-top: 0;
+        padding-bottom: 0;
+        min-height: 64px;
+    }
+    
     /* 級別介紹卡片 */
     .level-overview {
         grid-template-columns: repeat(3, 1fr);
     }
     
-    /* 閱讀內容保持雙欄 */
-    .content-bilingual {
-        grid-template-columns: 1fr 1fr;
-    }
-    
-    .content-english {
-        border-right: 1px solid var(--border-light);
-        border-bottom: none;
-        padding-right: var(--spacing-lg);
-        padding-bottom: 0;
-    }
-    
     /* 測驗控制恢復水平排列 */
-    .quiz-controls {
+    .test-controls {
         flex-direction: row;
     }
     
@@ -277,17 +210,6 @@
         height: 320px;
     }
     
-    /* 閱讀模組 */
-    .reading-module .module-header {
-        flex-direction: row;
-        text-align: left;
-    }
-    
-    .reading-controls {
-        order: 0;
-        margin-bottom: 0;
-    }
-    
     /* 能力雷達圖 */
     .ability-radar {
         width: 250px;
@@ -302,16 +224,6 @@
     /* 測驗進度 */
     .quiz-progress {
         flex-direction: row;
-    }
-    
-    /* 分析網格 */
-    .analysis-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    /* 海報統計 */
-    .learning-stats {
-        justify-content: space-between;
     }
 }
 
@@ -355,10 +267,6 @@
     .ability-scores {
         grid-template-columns: repeat(2, 1fr);
     }
-    
-    .analysis-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
 /* 大型桌面 (1280px+) */
@@ -384,19 +292,6 @@
     .ability-scores {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-xl);
-    }
-    
-    /* 閱讀控制項優化 */
-    .reading-controls {
-        flex-direction: row;
-        align-items: center;
-        gap: var(--spacing-xl);
-    }
-    
-    /* 分析網格 */
-    .analysis-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-lg);
     }
     
     /* 海報優化 */
@@ -443,7 +338,9 @@
     }
 }
 
-/* 橫向模式優化 (Landscape) */
+/* ==========================================
+   橫向模式優化 (Landscape)
+   ========================================== */
 @media (orientation: landscape) and (max-height: 600px) {
     /* 導航列縮減高度 */
     .nav-container {
@@ -503,7 +400,9 @@
     }
 }
 
-/* 高解析度螢幕優化 */
+/* ==========================================
+   高解析度螢幕優化
+   ========================================== */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
     /* 提升文字清晰度 */
     body {
@@ -529,7 +428,9 @@
     }
 }
 
-/* 深色模式支援 */
+/* ==========================================
+   深色模式支援
+   ========================================== */
 @media (prefers-color-scheme: dark) {
     :root {
         --bg-primary: #1e293b;
@@ -552,11 +453,6 @@
         box-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
     }
     
-    /* 調整模態框 */
-    .modal {
-        background-color: rgba(0, 0, 0, 0.8);
-    }
-    
     /* 調整按鈕 */
     .btn-secondary {
         background-color: var(--bg-tertiary);
@@ -572,7 +468,9 @@
     }
 }
 
-/* 減少動畫偏好設定 */
+/* ==========================================
+   減少動畫偏好設定
+   ========================================== */
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;
@@ -588,13 +486,11 @@
     .progress-fill::after {
         animation: none;
     }
-    
-    .timeline-item.current .timeline-badge {
-        animation: none;
-    }
 }
 
-/* 高對比度模式 */
+/* ==========================================
+   高對比度模式
+   ========================================== */
 @media (prefers-contrast: high) {
     :root {
         --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -620,7 +516,9 @@
     }
 }
 
-/* 觸控設備優化 */
+/* ==========================================
+   觸控設備優化
+   ========================================== */
 @media (pointer: coarse) {
     /* 增加可點擊區域 */
     .btn {
@@ -661,13 +559,14 @@
     }
 }
 
-/* 列印樣式 */
+/* ==========================================
+   列印樣式
+   ========================================== */
 @media print {
     /* 隱藏互動元素 */
     .main-nav,
     .global-progress,
     .btn,
-    .modal,
     .loading-overlay {
         display: none !important;
     }

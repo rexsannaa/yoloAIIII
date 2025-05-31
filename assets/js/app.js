@@ -18,67 +18,37 @@ class CEFRLearningApp {
                 name: '初級',
                 description: '基礎日常表達',
                 vocabularyRange: [500, 1000],
-                color: '#4ade80',
-                criteria: {
-                    vocabulary: 500,
-                    grammar: 'basic',
-                    comprehension: 'literal'
-                }
+                color: '#4ade80'
             },
             A2: {
                 name: '中初級',
                 description: '簡單交流對話',
                 vocabularyRange: [1000, 2000],
-                color: '#22d3ee',
-                criteria: {
-                    vocabulary: 1000,
-                    grammar: 'simple',
-                    comprehension: 'basic'
-                }
+                color: '#22d3ee'
             },
             B1: {
                 name: '中級',
                 description: '熟悉主題表達',
                 vocabularyRange: [2000, 3000],
-                color: '#3b82f6',
-                criteria: {
-                    vocabulary: 2000,
-                    grammar: 'compound',
-                    comprehension: 'inferential'
-                }
+                color: '#3b82f6'
             },
             B2: {
                 name: '中高級',
                 description: '流利詳細表達',
                 vocabularyRange: [3000, 4000],
-                color: '#8b5cf6',
-                criteria: {
-                    vocabulary: 3000,
-                    grammar: 'complex',
-                    comprehension: 'analytical'
-                }
+                color: '#8b5cf6'
             },
             C1: {
                 name: '進階級',
                 description: '靈活有效運用',
                 vocabularyRange: [4000, 6000],
-                color: '#f59e0b',
-                criteria: {
-                    vocabulary: 4000,
-                    grammar: 'advanced',
-                    comprehension: 'critical'
-                }
+                color: '#f59e0b'
             },
             C2: {
                 name: '熟練級',
                 description: '精細含義區分',
                 vocabularyRange: [6000, 10000],
-                color: '#ef4444',
-                criteria: {
-                    vocabulary: 6000,
-                    grammar: 'native',
-                    comprehension: 'nuanced'
-                }
+                color: '#ef4444'
             }
         };
         
@@ -448,73 +418,8 @@ class CEFRLearningApp {
         // 設定載入動畫
         this.hideLoading();
         
-        // 初始化工具提示
-        this.initializeTooltips();
-        
-        // 設定主題偏好
-        this.applyThemePreferences();
-        
         // 檢查設備能力
         this.checkDeviceCapabilities();
-    }
-    
-    /**
-     * 初始化工具提示
-     */
-    initializeTooltips() {
-        const tooltipElements = document.querySelectorAll('[data-tooltip]');
-        tooltipElements.forEach(element => {
-            const tooltip = this.createTooltip(element.dataset.tooltip);
-            element.addEventListener('mouseenter', (e) => {
-                this.showTooltip(tooltip, e.target);
-            });
-            element.addEventListener('mouseleave', () => {
-                this.hideTooltip(tooltip);
-            });
-        });
-    }
-    
-    /**
-     * 創建工具提示
-     */
-    createTooltip(text) {
-        const tooltip = document.createElement('div');
-        tooltip.className = 'tooltip';
-        tooltip.textContent = text;
-        document.body.appendChild(tooltip);
-        return tooltip;
-    }
-    
-    /**
-     * 顯示工具提示
-     */
-    showTooltip(tooltip, target) {
-        const rect = target.getBoundingClientRect();
-        tooltip.style.left = `${rect.left + rect.width / 2}px`;
-        tooltip.style.top = `${rect.top - 10}px`;
-        tooltip.classList.add('show');
-    }
-    
-    /**
-     * 隱藏工具提示
-     */
-    hideTooltip(tooltip) {
-        tooltip.classList.remove('show');
-    }
-    
-    /**
-     * 應用主題偏好
-     */
-    applyThemePreferences() {
-        // 檢查系統偏好
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('dark-theme');
-        }
-        
-        // 檢查減少動畫偏好
-        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.body.classList.add('reduced-motion');
-        }
     }
     
     /**
@@ -602,11 +507,38 @@ class CEFRLearningApp {
     showNotification(message, type = 'info', duration = 3000) {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${this.getNotificationColor(type)};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            max-width: 300px;
+            font-size: 14px;
+            line-height: 1.4;
+        `;
+        
         notification.innerHTML = `
-            <div class="notification-content">
-                <span class="notification-icon">${this.getNotificationIcon(type)}</span>
-                <span class="notification-message">${message}</span>
-                <button class="notification-close">&times;</button>
+            <div style="display: flex; align-items: flex-start; gap: 8px;">
+                <span style="flex-shrink: 0;">${this.getNotificationIcon(type)}</span>
+                <span style="flex: 1;">${message}</span>
+                <button style="
+                    background: none; 
+                    border: none; 
+                    color: white; 
+                    cursor: pointer; 
+                    font-size: 16px; 
+                    line-height: 1; 
+                    padding: 0; 
+                    margin-left: 8px;
+                    flex-shrink: 0;
+                ">&times;</button>
             </div>
         `;
         
@@ -614,7 +546,7 @@ class CEFRLearningApp {
         document.body.appendChild(notification);
         
         // 動畫顯示
-        setTimeout(() => notification.classList.add('show'), 10);
+        setTimeout(() => notification.style.transform = 'translateX(0)', 10);
         
         // 自動隱藏
         const autoHide = setTimeout(() => {
@@ -622,7 +554,7 @@ class CEFRLearningApp {
         }, duration);
         
         // 點擊關閉
-        const closeBtn = notification.querySelector('.notification-close');
+        const closeBtn = notification.querySelector('button');
         closeBtn.addEventListener('click', () => {
             clearTimeout(autoHide);
             this.hideNotification(notification);
@@ -635,12 +567,25 @@ class CEFRLearningApp {
      * 隱藏通知訊息
      */
     hideNotification(notification) {
-        notification.classList.add('hide');
+        notification.style.transform = 'translateX(100%)';
         setTimeout(() => {
             if (notification.parentNode) {
                 notification.parentNode.removeChild(notification);
             }
         }, 300);
+    }
+    
+    /**
+     * 取得通知顏色
+     */
+    getNotificationColor(type) {
+        const colors = {
+            success: '#10b981',
+            error: '#ef4444',
+            warning: '#f59e0b',
+            info: '#06b6d4'
+        };
+        return colors[type] || colors.info;
     }
     
     /**
@@ -676,43 +621,10 @@ class CEFRLearningApp {
     }
     
     /**
-     * 顯示模態框
+     * 顯示模組
      */
-    showModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'flex';
-            setTimeout(() => modal.classList.add('show'), 10);
-            
-            // ESC 鍵關閉
-            const escListener = (e) => {
-                if (e.key === 'Escape') {
-                    this.hideModal(modalId);
-                    document.removeEventListener('keydown', escListener);
-                }
-            };
-            document.addEventListener('keydown', escListener);
-            
-            // 點擊背景關閉
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    this.hideModal(modalId);
-                }
-            });
-        }
-    }
-    
-    /**
-     * 隱藏模態框
-     */
-    hideModal(modalId) {
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
-        }
+    showModule(moduleName) {
+        this.switchModule(moduleName);
     }
     
     /**
