@@ -4,9 +4,969 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CEFR分級英語學習網站生成系統</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/modules.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
+    <style>
+        /* main.css - 主要樣式 */
+
+        /* 全域變數定義 */
+        :root {
+            /* CEFR級別色彩系統 */
+            --level-a1: #4ade80;  /* A1初級 - 淺綠 */
+            --level-a2: #22d3ee;  /* A2中初級 - 天藍 */
+            --level-b1: #3b82f6;  /* B1中級 - 標準藍 */
+            --level-b2: #8b5cf6;  /* B2中高級 - 紫色 */
+            --level-c1: #f59e0b;  /* C1進階級 - 橙色 */
+            --level-c2: #ef4444;  /* C2熟練級 - 紅色 */
+            
+            /* 基礎色彩 */
+            --primary-color: #3b82f6;
+            --secondary-color: #64748b;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --info-color: #06b6d4;
+            
+            /* 背景色彩 */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-tertiary: #f1f5f9;
+            --bg-dark: #1e293b;
+            
+            /* 文字色彩 */
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --text-white: #ffffff;
+            
+            /* 邊框色彩 */
+            --border-light: #e2e8f0;
+            --border-medium: #cbd5e1;
+            --border-dark: #94a3b8;
+            
+            /* 陰影效果 */
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            
+            /* 間距系統 */
+            --spacing-xs: 0.25rem; /* 4px */
+            --spacing-sm: 0.5rem;  /* 8px */
+            --spacing-md: 1rem;    /* 16px */
+            --spacing-lg: 1.5rem;  /* 24px */
+            --spacing-xl: 2rem;    /* 32px */
+            --spacing-2xl: 3rem;   /* 48px */
+            
+            /* 字體系統 */
+            --font-sans: system-ui, -apple-system, sans-serif;
+            --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+            
+            /* 字體大小 */
+            --text-xs: 0.75rem;   /* 12px */
+            --text-sm: 0.875rem;  /* 14px */
+            --text-base: 1rem;    /* 16px */
+            --text-lg: 1.125rem;  /* 18px */
+            --text-xl: 1.25rem;   /* 20px */
+            --text-2xl: 1.5rem;   /* 24px */
+            --text-3xl: 1.875rem; /* 30px */
+            --text-4xl: 2.25rem;  /* 36px */
+            
+            /* 圓角系統 */
+            --radius-sm: 0.25rem;  /* 4px */
+            --radius-md: 0.5rem;   /* 8px */
+            --radius-lg: 0.75rem;  /* 12px */
+            --radius-xl: 1rem;     /* 16px */
+            --radius-full: 9999px;
+            
+            /* 動畫時間 */
+            --duration-fast: 0.15s;
+            --duration-normal: 0.3s;
+            --duration-slow: 0.5s;
+            
+            /* 動畫效果 */
+            --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-out: cubic-bezier(0, 0, 0.2, 1);
+            --ease-in: cubic-bezier(0.4, 0, 1, 1);
+        }
+
+        /* 基礎樣式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            background-color: var(--bg-secondary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* 標題樣式 */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: var(--spacing-md);
+            color: var(--text-primary);
+        }
+
+        h1 { font-size: var(--text-4xl); }
+        h2 { font-size: var(--text-3xl); }
+        h3 { font-size: var(--text-2xl); }
+        h4 { font-size: var(--text-xl); }
+        h5 { font-size: var(--text-lg); }
+        h6 { font-size: var(--text-base); }
+
+        /* 段落和文字 */
+        p {
+            margin-bottom: var(--spacing-md);
+            color: var(--text-secondary);
+        }
+
+        /* 連結樣式 */
+        a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color var(--duration-fast) var(--ease-out);
+        }
+
+        a:hover {
+            color: var(--primary-color);
+            opacity: 0.8;
+        }
+
+        /* 按鈕基礎樣式 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            font-size: var(--text-sm);
+            font-weight: 500;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-out);
+            text-decoration: none;
+            white-space: nowrap;
+            user-select: none;
+            min-height: 44px; /* 觸控友好的最小高度 */
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 按鈕變體 */
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--text-white);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background-color: var(--primary-color);
+            opacity: 0.9;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-medium);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background-color: var(--bg-tertiary);
+            border-color: var(--border-dark);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: var(--text-white);
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background-color: var(--success-color);
+            opacity: 0.9;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline:hover:not(:disabled) {
+            background-color: var(--primary-color);
+            color: var(--text-white);
+        }
+
+        /* 按鈕大小變體 */
+        .btn-large {
+            padding: var(--spacing-md) var(--spacing-xl);
+            font-size: var(--text-base);
+            min-height: 52px;
+        }
+
+        .btn-small {
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-size: var(--text-xs);
+            min-height: 36px;
+        }
+
+        /* CEFR級別徽章樣式 */
+        .level-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            font-weight: 600;
+            font-size: var(--text-xs);
+            color: var(--text-white);
+            min-width: 40px;
+            height: 24px;
+        }
+
+        .level-badge.a1 { background-color: var(--level-a1); }
+        .level-badge.a2 { background-color: var(--level-a2); }
+        .level-badge.b1 { background-color: var(--level-b1); }
+        .level-badge.b2 { background-color: var(--level-b2); }
+        .level-badge.c1 { background-color: var(--level-c1); }
+        .level-badge.c2 { background-color: var(--level-c2); }
+
+        /* 進度條樣式 */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--bg-tertiary);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: var(--radius-full);
+            transition: width var(--duration-normal) var(--ease-out);
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* 卡片樣式 */
+        .card {
+            background-color: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: var(--spacing-lg);
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        /* 輸入元素樣式 */
+        input, textarea, select {
+            font-family: inherit;
+            font-size: var(--text-sm);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border: 1px solid var(--border-medium);
+            border-radius: var(--radius-md);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all var(--duration-fast) var(--ease-out);
+            min-height: 44px;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        /* 單選按鈕樣式 */
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            min-height: auto;
+            margin-right: var(--spacing-sm);
+            accent-color: var(--primary-color);
+        }
+
+        /* 標籤樣式 */
+        label {
+            font-size: var(--text-sm);
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* =================== 導航列樣式 =================== */
+        .main-nav {
+            background-color: var(--bg-primary);
+            box-shadow: var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 64px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        .nav-brand h1 {
+            font-size: var(--text-xl);
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .level-indicator {
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: var(--spacing-lg);
+            margin: 0;
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-color);
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        /* =================== 應用程式容器 =================== */
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: var(--spacing-2xl) var(--spacing-lg);
+        }
+
+        /* 模組基礎樣式 */
+        .module {
+            display: none;
+            animation: fadeIn var(--duration-normal) var(--ease-out);
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        .module-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .module-header h2 {
+            color: var(--primary-color);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .module-header p {
+            font-size: var(--text-lg);
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* =================== CEFR分級測驗模組樣式 =================== */
+
+        /* 級別介紹卡片 */
+        .level-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .level-card {
+            background-color: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--duration-fast) var(--ease-out);
+            cursor: pointer;
+        }
+
+        .level-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .level-card .level-badge {
+            font-size: var(--text-lg);
+            width: 60px;
+            height: 60px;
+            margin: 0 auto var(--spacing-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .level-card h3 {
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--text-lg);
+        }
+
+        .level-card p {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        /* 測驗進度條 */
+        .progress-bar {
+            position: relative;
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .progress-text {
+            position: absolute;
+            right: 0;
+            top: -24px;
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        /* 問題容器 */
+        .question-container {
+            background-color: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-2xl);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .question-type {
+            background-color: var(--info-color);
+            color: var(--text-white);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-md);
+            font-size: var(--text-xs);
+            font-weight: 600;
+        }
+
+        .question-level {
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        .question-content h3 {
+            font-size: var(--text-xl);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.4;
+        }
+
+        /* 選項容器 */
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .option-label {
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-md);
+            background-color: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-out);
+            border: 2px solid transparent;
+        }
+
+        .option-label:hover {
+            background-color: var(--bg-tertiary);
+            border-color: var(--border-medium);
+        }
+
+        .option-label:has(input:checked) {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: var(--primary-color);
+        }
+
+        .option-text {
+            margin-left: var(--spacing-sm);
+            font-size: var(--text-base);
+            line-height: 1.4;
+        }
+
+        /* 測驗控制按鈕 */
+        .test-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+
+        /* =================== 智能單詞卡片模組樣式 =================== */
+
+        .flashcard-module .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: left;
+        }
+
+        .level-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-size: var(--text-sm);
+        }
+
+        .current-level {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* 3D翻轉卡片 */
+        .flashcard-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .flashcard-3d {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            margin-bottom: var(--spacing-xl);
+            perspective: 1000px;
+        }
+
+        .flashcard-front,
+        .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            transition: transform var(--duration-slow) var(--ease-in-out);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: var(--spacing-2xl);
+            text-align: center;
+        }
+
+        .flashcard-front {
+            background: linear-gradient(135deg, var(--primary-color), var(--info-color));
+            color: var(--text-white);
+        }
+
+        .flashcard-back {
+            background: linear-gradient(135deg, var(--success-color), var(--warning-color));
+            color: var(--text-white);
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-3d.flipped .flashcard-front {
+            transform: rotateY(-180deg);
+        }
+
+        .flashcard-3d.flipped .flashcard-back {
+            transform: rotateY(0deg);
+        }
+
+        .word-level-badge {
+            position: absolute;
+            top: var(--spacing-lg);
+            right: var(--spacing-lg);
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-full);
+            font-size: var(--text-xs);
+            font-weight: 600;
+        }
+
+        .word-main {
+            font-size: var(--text-4xl);
+            font-weight: 700;
+            margin-bottom: var(--spacing-md);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .word-phonetic {
+            font-size: var(--text-lg);
+            opacity: 0.9;
+            font-family: var(--font-mono);
+        }
+
+        .word-meaning {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .word-etymology {
+            font-size: var(--text-sm);
+            opacity: 0.8;
+            margin-bottom: var(--spacing-lg);
+            font-style: italic;
+        }
+
+        .word-example {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(10px);
+        }
+
+        .example-english {
+            font-size: var(--text-lg);
+            margin-bottom: var(--spacing-sm);
+            font-weight: 500;
+        }
+
+        .example-chinese {
+            font-size: var(--text-base);
+            opacity: 0.9;
+        }
+
+        /* 卡片控制按鈕 */
+        .flashcard-controls {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .flashcard-progress {
+            text-align: center;
+        }
+
+        .progress-info {
+            margin-bottom: var(--spacing-sm);
+            font-size: var(--text-sm);
+            color: var(--text-secondary);
+        }
+
+        /* =================== 全域進度指示器 =================== */
+
+        .global-progress {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--bg-primary);
+            border-top: 1px solid var(--border-light);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-lg);
+            z-index: 50;
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--bg-tertiary);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-sm);
+            font-weight: 600;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .step.completed .step-number {
+            background-color: var(--success-color);
+            color: var(--text-white);
+        }
+
+        .step.active .step-number {
+            background-color: var(--primary-color);
+            color: var(--text-white);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        .step span {
+            font-size: var(--text-xs);
+            color: var(--text-secondary);
+            transition: color var(--duration-fast) var(--ease-out);
+        }
+
+        .step.completed span,
+        .step.active span {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* 載入動畫 */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            color: var(--text-white);
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid var(--text-white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto var(--spacing-md);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 通用動畫類別 */
+        .fade-in {
+            animation: fadeIn var(--duration-normal) var(--ease-out);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 通知訊息 */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-xl);
+            padding: var(--spacing-md);
+            max-width: 400px;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform var(--duration-normal) var(--ease-out);
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .notification.hide {
+            transform: translateX(400px);
+        }
+
+        .notification-content {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            color: var(--text-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--text-xs);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .notification-success .notification-icon {
+            background: var(--success-color);
+        }
+
+        .notification-error .notification-icon {
+            background: var(--error-color);
+        }
+
+        .notification-warning .notification-icon {
+            background: var(--warning-color);
+        }
+
+        .notification-message {
+            flex: 1;
+            font-size: var(--text-sm);
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            font-size: var(--text-lg);
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: var(--spacing-xs);
+            line-height: 1;
+        }
+
+        .notification-close:hover {
+            color: var(--text-primary);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 var(--spacing-md);
+            }
+            
+            .nav-brand h1 {
+                font-size: var(--text-lg);
+            }
+            
+            .nav-menu {
+                gap: var(--spacing-sm);
+            }
+            
+            .nav-link {
+                padding: var(--spacing-xs) var(--spacing-sm);
+                font-size: var(--text-xs);
+            }
+            
+            .app-container {
+                padding: var(--spacing-lg) var(--spacing-md);
+            }
+            
+            .level-overview {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-md);
+            }
+            
+            .level-card {
+                padding: var(--spacing-md);
+            }
+            
+            .level-card .level-badge {
+                width: 40px;
+                height: 40px;
+                font-size: var(--text-sm);
+                margin-bottom: var(--spacing-sm);
+            }
+            
+            .question-container {
+                padding: var(--spacing-lg);
+            }
+            
+            .flashcard-3d {
+                height: 280px;
+            }
+            
+            .word-main {
+                font-size: var(--text-3xl);
+            }
+            
+            .word-meaning {
+                font-size: var(--text-xl);
+            }
+            
+            .progress-steps {
+                gap: var(--spacing-sm);
+            }
+            
+            .step span {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- 導航列 -->
@@ -72,14 +1032,14 @@
             <!-- 測驗區域 -->
             <div class="assessment-test" style="display: none;">
                 <div class="progress-bar">
-                    <div class="progress-fill"></div>
-                    <span class="progress-text">1 / 15</span>
+                    <div class="progress-fill" id="assessmentProgressFill"></div>
+                    <span class="progress-text" id="assessmentProgressText">1 / 15</span>
                 </div>
                 
                 <div class="question-container">
                     <div class="question-header">
-                        <span class="question-type">詞彙測試</span>
-                        <span class="question-level">A1-A2</span>
+                        <span class="question-type" id="questionType">詞彙測試</span>
+                        <span class="question-level" id="questionLevel">A1-A2</span>
                     </div>
                     <div class="question-content">
                         <h3 id="questionText">載入中...</h3>
@@ -105,51 +1065,6 @@
                             <h3 id="levelTitle">中高級</h3>
                             <p id="levelDescription">您能流利且詳細地表達想法</p>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- 能力雷達圖 -->
-                <div class="ability-radar-container">
-                    <h4>能力分析</h4>
-                    <div class="ability-radar" id="abilityRadar">
-                        <!-- 雷達圖將由JavaScript生成 -->
-                    </div>
-                    <div class="ability-scores">
-                        <div class="ability-item">
-                            <span class="ability-name">詞彙掌握</span>
-                            <div class="ability-bar">
-                                <div class="ability-fill" data-ability="vocabulary"></div>
-                            </div>
-                            <span class="ability-score" id="vocabScore">85%</span>
-                        </div>
-                        <div class="ability-item">
-                            <span class="ability-name">語法理解</span>
-                            <div class="ability-bar">
-                                <div class="ability-fill" data-ability="grammar"></div>
-                            </div>
-                            <span class="ability-score" id="grammarScore">78%</span>
-                        </div>
-                        <div class="ability-item">
-                            <span class="ability-name">閱讀理解</span>
-                            <div class="ability-bar">
-                                <div class="ability-fill" data-ability="comprehension"></div>
-                            </div>
-                            <span class="ability-score" id="comprehensionScore">82%</span>
-                        </div>
-                        <div class="ability-item">
-                            <span class="ability-name">邏輯推理</span>
-                            <div class="ability-bar">
-                                <div class="ability-fill" data-ability="reasoning"></div>
-                            </div>
-                            <span class="ability-score" id="reasoningScore">76%</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="learning-recommendations">
-                    <h4>個人化學習建議</h4>
-                    <div class="recommendation-list" id="recommendationList">
-                        <!-- 建議將由JavaScript生成 -->
                     </div>
                 </div>
                 
@@ -210,39 +1125,13 @@
         <section id="reading-module" class="module">
             <div class="module-header">
                 <h2>多模式閱讀</h2>
-                <div class="reading-controls">
-                    <div class="mode-selector">
-                        <button class="mode-btn active" data-mode="bilingual">雙語對照</button>
-                        <button class="mode-btn" data-mode="english">純英文</button>
-                        <button class="mode-btn" data-mode="chinese">純中文</button>
-                    </div>
-                    <div class="difficulty-adjuster">
-                        <label>難度調整：</label>
-                        <input type="range" id="difficultySlider" min="1" max="6" value="4">
-                        <span id="difficultyLevel">B2</span>
-                    </div>
-                </div>
+                <p>智能分級閱讀理解</p>
             </div>
             
-            <div class="reading-content">
-                <div class="content-display" id="readingDisplay">
-                    <div class="content-bilingual">
-                        <div class="content-english" id="contentEnglish">
-                            <p>The rapid advancement of artificial intelligence has transformed the way we work and live. <span class="word-highlight b2" data-word="advancement">Advancement</span> in machine learning algorithms enables computers to perform tasks that were once thought to be exclusively human. However, this technological <span class="word-highlight c1" data-word="revolution">revolution</span> also raises important questions about the future of employment and society.</p>
-                        </div>
-                        <div class="content-chinese" id="contentChinese">
-                            <p>人工智慧的快速進步改變了我們工作和生活的方式。機器學習演算法的進步使電腦能夠執行曾經被認為是人類專有的任務。然而，這場技術革命也引發了關於就業和社會未來的重要問題。</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 單詞提示框 -->
-                <div class="word-tooltip" id="wordTooltip" style="display: none;">
-                    <div class="tooltip-word"></div>
-                    <div class="tooltip-phonetic"></div>
-                    <div class="tooltip-meaning"></div>
-                    <div class="tooltip-level"></div>
-                </div>
+            <div class="card">
+                <h3>示例閱讀內容</h3>
+                <p>人工智慧的快速進步改變了我們工作和生活的方式。機器學習演算法的進步使電腦能夠執行曾經被認為是人類專有的任務。</p>
+                <p>The rapid advancement of artificial intelligence has transformed the way we work and live. Advancement in machine learning algorithms enables computers to perform tasks that were once thought to be exclusively human.</p>
             </div>
         </section>
 
@@ -250,113 +1139,22 @@
         <section id="quiz-module" class="module">
             <div class="module-header">
                 <h2>理解測試</h2>
-                <div class="quiz-info">
-                    <span class="quiz-level">適應級別：<span id="quizLevel">B2</span></span>
-                </div>
+                <p>檢驗您的理解能力</p>
             </div>
             
-            <div class="quiz-container">
-                <div class="quiz-progress">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="quizProgressFill"></div>
-                    </div>
-                    <span class="progress-text" id="quizProgressText">1 / 10</span>
+            <div class="card">
+                <h3>測試題目示例</h3>
+                <p>根據剛才的閱讀內容，人工智慧的進步主要影響了什麼？</p>
+                <div class="options-container">
+                    <label class="option-label">
+                        <input type="radio" name="quiz-answer" value="A">
+                        <span class="option-text">僅影響工作方式</span>
+                    </label>
+                    <label class="option-label">
+                        <input type="radio" name="quiz-answer" value="B">
+                        <span class="option-text">工作和生活方式都受到影響</span>
+                    </label>
                 </div>
-                
-                <div class="quiz-question">
-                    <div class="question-type-badge" id="questionTypeBadge">閱讀理解</div>
-                    <div class="question-content">
-                        <div class="question-text" id="quizQuestionText">
-                            根據剛才的閱讀內容，人工智慧的進步主要影響了什麼？
-                        </div>
-                        <div class="question-options" id="quizOptionsContainer">
-                            <label class="option-label">
-                                <input type="radio" name="quiz-answer" value="A">
-                                <span class="option-text">僅影響工作方式</span>
-                            </label>
-                            <label class="option-label">
-                                <input type="radio" name="quiz-answer" value="B">
-                                <span class="option-text">工作和生活方式都受到影響</span>
-                            </label>
-                            <label class="option-label">
-                                <input type="radio" name="quiz-answer" value="C">
-                                <span class="option-text">主要影響娛樂方式</span>
-                            </label>
-                            <label class="option-label">
-                                <input type="radio" name="quiz-answer" value="D">
-                                <span class="option-text">沒有實質影響</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="quiz-feedback" id="quizFeedback" style="display: none;">
-                    <div class="feedback-result">
-                        <span class="feedback-icon">✓</span>
-                        <span class="feedback-text">答對了！</span>
-                    </div>
-                    <div class="feedback-explanation">
-                        根據文章內容，人工智慧的進步確實改變了我們的工作和生活方式。
-                    </div>
-                </div>
-                
-                <div class="quiz-controls">
-                    <button id="prevQuizQuestion" class="btn btn-secondary" disabled>上一題</button>
-                    <button id="submitAnswer" class="btn btn-primary">提交答案</button>
-                    <button id="nextQuizQuestion" class="btn btn-primary" style="display: none;">下一題</button>
-                    <button id="finishQuiz" class="btn btn-success" style="display: none;">完成測試</button>
-                </div>
-            </div>
-            
-            <!-- 測驗結果 -->
-            <div class="quiz-results" id="quizResults" style="display: none;">
-                <div class="results-summary">
-                    <div class="score-display">
-                        <div class="score-circle">
-                            <span class="score-percentage" id="scorePercentage">85%</span>
-                        </div>
-                        <div class="score-details">
-                            <p>正確率：<span id="correctRate">85%</span></p>
-                            <p>答對題數：<span id="correctCount">8</span> / <span id="totalCount">10</span></p>
-                        </div>
-                    </div>
-                    
-                    <div class="ability-analysis">
-                        <h4>能力分析</h4>
-                        <div class="analysis-grid">
-                            <div class="analysis-item">
-                                <span class="analysis-label">詞彙理解</span>
-                                <div class="analysis-bar">
-                                    <div class="analysis-fill" style="width: 90%"></div>
-                                </div>
-                                <span class="analysis-score">90%</span>
-                            </div>
-                            <div class="analysis-item">
-                                <span class="analysis-label">語法應用</span>
-                                <div class="analysis-bar">
-                                    <div class="analysis-fill" style="width: 80%"></div>
-                                </div>
-                                <span class="analysis-score">80%</span>
-                            </div>
-                            <div class="analysis-item">
-                                <span class="analysis-label">閱讀理解</span>
-                                <div class="analysis-bar">
-                                    <div class="analysis-fill" style="width: 85%"></div>
-                                </div>
-                                <span class="analysis-score">85%</span>
-                            </div>
-                            <div class="analysis-item">
-                                <span class="analysis-label">邏輯推理</span>
-                                <div class="analysis-bar">
-                                    <div class="analysis-fill" style="width: 75%"></div>
-                                </div>
-                                <span class="analysis-score">75%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <button id="retakeQuiz" class="btn btn-secondary">重新測試</button>
             </div>
         </section>
 
@@ -364,90 +1162,17 @@
         <section id="poster-module" class="module">
             <div class="module-header">
                 <h2>學習成就海報</h2>
-                <div class="poster-controls">
-                    <select id="posterStyle" class="style-selector">
-                        <option value="modern">現代風格</option>
-                        <option value="classic">經典風格</option>
-                        <option value="minimal">簡約風格</option>
-                    </select>
-                </div>
+                <p>展示您的學習成果</p>
             </div>
             
-            <div class="poster-container">
-                <div class="poster-canvas" id="posterCanvas">
-                    <div class="poster-header">
-                        <h3>英語學習成就證書</h3>
-                        <div class="certificate-date" id="certificateDate">2024年5月30日</div>
+            <div class="card">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 2rem; border-radius: 1rem; text-align: center;">
+                    <h3>英語學習成就證書</h3>
+                    <div style="margin: 2rem 0;">
+                        <div style="display: inline-block; width: 80px; height: 80px; background: rgba(255,255,255,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: bold;">B2</div>
                     </div>
-                    
-                    <div class="poster-content">
-                        <div class="achievement-main">
-                            <div class="level-achievement">
-                                <div class="achievement-badge" id="achievementBadge">
-                                    <span class="badge-level">B2</span>
-                                </div>
-                                <div class="achievement-text">
-                                    <h4>CEFR B2 中高級</h4>
-                                    <p>流利且詳細地表達想法</p>
-                                </div>
-                            </div>
-                            
-                            <div class="learning-stats">
-                                <div class="stat-item">
-                                    <div class="stat-number" id="vocabularyCount">1,234</div>
-                                    <div class="stat-label">掌握詞彙</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number" id="testScore">85%</div>
-                                    <div class="stat-label">測驗得分</div>
-                                </div>
-                                <div class="stat-item">
-                                    <div class="stat-number" id="studyDays">45</div>
-                                    <div class="stat-label">學習天數</div>
-                                </div>
-                            </div>
-                            
-                            <div class="progress-timeline">
-                                <div class="timeline-item completed">
-                                    <div class="timeline-badge a1">A1</div>
-                                    <span>初級</span>
-                                </div>
-                                <div class="timeline-item completed">
-                                    <div class="timeline-badge a2">A2</div>
-                                    <span>中初級</span>
-                                </div>
-                                <div class="timeline-item completed">
-                                    <div class="timeline-badge b1">B1</div>
-                                    <span>中級</span>
-                                </div>
-                                <div class="timeline-item current">
-                                    <div class="timeline-badge b2">B2</div>
-                                    <span>中高級</span>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-badge c1">C1</div>
-                                    <span>進階級</span>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-badge c2">C2</div>
-                                    <span>熟練級</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="poster-footer">
-                        <div class="signature-line">
-                            <p>CEFR英語學習系統認證</p>
-                            <div class="system-logo">🎓</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="poster-actions">
-                    <button id="downloadPoster" class="btn btn-primary">下載海報</button>
-                    <button id="sharePoster" class="btn btn-secondary">分享成就</button>
-                    <button id="regeneratePoster" class="btn btn-outline">重新生成</button>
+                    <h4>CEFR B2 中高級</h4>
+                    <p>流利且詳細地表達想法</p>
                 </div>
             </div>
         </section>
@@ -456,11 +1181,11 @@
     <!-- 全域進度指示器 -->
     <div class="global-progress">
         <div class="progress-steps">
-            <div class="step completed" data-step="assessment">
+            <div class="step active" data-step="assessment">
                 <div class="step-number">1</div>
                 <span>分級測驗</span>
             </div>
-            <div class="step active" data-step="flashcard">
+            <div class="step" data-step="flashcard">
                 <div class="step-number">2</div>
                 <span>單詞學習</span>
             </div>
@@ -479,48 +1204,1151 @@
         </div>
     </div>
 
-    <!-- 文本輸入模態框 -->
-    <div class="modal" id="textInputModal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>輸入學習文本</h3>
-                <button class="modal-close" id="modalClose">&times;</button>
-            </div>
-            <div class="modal-body">
-                <textarea id="inputText" placeholder="請輸入您想要學習的英語文本內容..." rows="10"></textarea>
-                <div class="text-info">
-                    <span>字數統計：<span id="wordCount">0</span></span>
-                    <span>預估級別：<span id="estimatedLevel">--</span></span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button id="cancelInput" class="btn btn-secondary">取消</button>
-                <button id="processText" class="btn btn-primary">開始處理</button>
-            </div>
-        </div>
-    </div>
-
     <!-- 載入指示器 -->
     <div class="loading-overlay" id="loadingOverlay" style="display: none;">
         <div class="loading-spinner">
             <div class="spinner"></div>
-            <p>正在處理文本內容...</p>
+            <p>正在處理內容...</p>
         </div>
     </div>
 
-    <!-- JavaScript檔案載入 -->
-    <script src="assets/js/app.js"></script>
-    <script src="assets/js/assessment.js"></script>
-    <script src="assets/js/flashcard.js"></script>
-    <script src="assets/js/reading.js"></script>
-    <script src="assets/js/quiz.js"></script>
-    <script src="assets/js/poster.js"></script>
-
-    <!-- 應用程式初始化 -->
     <script>
+        /**
+         * CEFR分級英語學習網站 - 完整應用程式
+         * 整合所有模組功能的完整版本
+         */
+
+        class CEFRLearningApp {
+            constructor() {
+                // 應用程式狀態
+                this.currentModule = 'assessment';
+                this.userLevel = null;
+                this.eventHandlers = new Map();
+                
+                // CEFR級別定義
+                this.cefrLevels = {
+                    A1: { name: '初級', description: '基礎日常表達', vocabularyRange: [500, 1000], color: '#4ade80' },
+                    A2: { name: '中初級', description: '簡單交流對話', vocabularyRange: [1000, 2000], color: '#22d3ee' },
+                    B1: { name: '中級', description: '熟悉主題表達', vocabularyRange: [2000, 3000], color: '#3b82f6' },
+                    B2: { name: '中高級', description: '流利詳細表達', vocabularyRange: [3000, 4000], color: '#8b5cf6' },
+                    C1: { name: '進階級', description: '靈活有效運用', vocabularyRange: [4000, 6000], color: '#f59e0b' },
+                    C2: { name: '熟練級', description: '精細含義區分', vocabularyRange: [6000, 10000], color: '#ef4444' }
+                };
+                
+                // 模組實例
+                this.modules = {
+                    assessment: new AssessmentModule(this),
+                    flashcard: new FlashcardModule(this),
+                    reading: new ReadingModule(this),
+                    quiz: new QuizModule(this),
+                    poster: new PosterModule(this)
+                };
+            }
+            
+            /**
+             * 初始化應用程式
+             */
+            init() {
+                console.log('🚀 CEFR學習應用程式啟動中...');
+                
+                try {
+                    // 設定事件監聽
+                    this.setupEventListeners();
+                    
+                    // 初始化UI狀態
+                    this.initializeUI();
+                    
+                    // 載入用戶資料
+                    this.loadUserData();
+                    
+                    // 開始第一個模組
+                    this.showModule('assessment');
+                    
+                    console.log('✅ 應用程式初始化完成');
+                    
+                } catch (error) {
+                    console.error('❌ 應用程式初始化失敗:', error);
+                    this.showNotification('應用程式載入失敗，請重新整理頁面', 'error');
+                }
+            }
+            
+            /**
+             * 設定全域事件監聽
+             */
+            setupEventListeners() {
+                // 導航連結事件
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const module = link.dataset.module;
+                        if (module) {
+                            this.switchModule(module);
+                        }
+                    });
+                });
+                
+                // 全域進度步驟點擊
+                const progressSteps = document.querySelectorAll('.step');
+                progressSteps.forEach(step => {
+                    step.addEventListener('click', () => {
+                        const stepName = step.dataset.step;
+                        if (stepName && this.isModuleAccessible(stepName)) {
+                            this.switchModule(stepName);
+                        }
+                    });
+                });
+                
+                // 鍵盤快捷鍵
+                document.addEventListener('keydown', (e) => {
+                    // Ctrl/Cmd + 數字鍵切換模組
+                    if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '5') {
+                        e.preventDefault();
+                        const moduleIndex = parseInt(e.key) - 1;
+                        const modules = ['assessment', 'flashcard', 'reading', 'quiz', 'poster'];
+                        if (modules[moduleIndex] && this.isModuleAccessible(modules[moduleIndex])) {
+                            this.switchModule(modules[moduleIndex]);
+                        }
+                    }
+                });
+            }
+            
+            /**
+             * 模組切換管理
+             */
+            switchModule(moduleName) {
+                if (!this.isModuleAccessible(moduleName)) {
+                    this.showNotification('請先完成前面的步驟', 'warning');
+                    return;
+                }
+                
+                // 隱藏所有模組
+                const allModules = document.querySelectorAll('.module');
+                allModules.forEach(module => {
+                    module.classList.remove('active');
+                });
+                
+                // 顯示目標模組
+                const targetModule = document.getElementById(`${moduleName}-module`);
+                if (targetModule) {
+                    targetModule.classList.add('active');
+                    this.currentModule = moduleName;
+                    
+                    // 更新導航狀態
+                    this.updateNavigation(moduleName);
+                    
+                    // 更新進度指示器
+                    this.updateProgressIndicator(moduleName);
+                    
+                    // 通知模組已切換
+                    this.emit('moduleChanged', { module: moduleName });
+                    
+                    // 初始化模組（如果需要）
+                    if (this.modules[moduleName] && typeof this.modules[moduleName].onShow === 'function') {
+                        this.modules[moduleName].onShow();
+                    }
+                    
+                    console.log(`📄 切換到模組: ${moduleName}`);
+                } else {
+                    console.error(`❌ 找不到模組: ${moduleName}`);
+                }
+            }
+            
+            /**
+             * 檢查模組是否可訪問
+             */
+            isModuleAccessible(moduleName) {
+                // 第一個模組（assessment）總是可訪問
+                if (moduleName === 'assessment') {
+                    return true;
+                }
+                
+                // 如果用戶已完成分級測驗，允許訪問後續模組
+                if (this.userLevel) {
+                    return true;
+                }
+                
+                // 否則只能訪問測驗模組
+                return false;
+            }
+            
+            /**
+             * 更新導航狀態
+             */
+            updateNavigation(activeModule) {
+                const navLinks = document.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.module === activeModule) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            /**
+             * 更新進度指示器
+             */
+            updateProgressIndicator(activeModule) {
+                const steps = document.querySelectorAll('.step');
+                const moduleOrder = ['assessment', 'flashcard', 'reading', 'quiz', 'poster'];
+                const activeIndex = moduleOrder.indexOf(activeModule);
+                
+                steps.forEach((step, index) => {
+                    step.classList.remove('active', 'completed');
+                    
+                    if (index < activeIndex || (this.userLevel && index < activeIndex + 1)) {
+                        step.classList.add('completed');
+                    } else if (index === activeIndex) {
+                        step.classList.add('active');
+                    }
+                });
+            }
+            
+            /**
+             * 設定用戶級別
+             */
+            setUserLevel(level, abilities = {}) {
+                if (!this.cefrLevels[level]) {
+                    console.error('❌ 無效的CEFR級別:', level);
+                    return;
+                }
+                
+                this.userLevel = level;
+                
+                // 更新UI顯示
+                this.updateLevelDisplay(level);
+                
+                // 儲存用戶資料
+                this.saveUserData();
+                
+                // 通知級別變更
+                this.emit('levelChanged', { level, abilities });
+                
+                console.log(`🎯 用戶級別設定為: ${level} (${this.cefrLevels[level].name})`);
+            }
+            
+            /**
+             * 更新級別顯示
+             */
+            updateLevelDisplay(level) {
+                const levelBadge = document.getElementById('userLevelBadge');
+                if (levelBadge) {
+                    levelBadge.textContent = level;
+                    levelBadge.className = `level-indicator level-badge ${level.toLowerCase()}`;
+                }
+            }
+            
+            /**
+             * 初始化UI狀態
+             */
+            initializeUI() {
+                // 隱藏載入動畫
+                this.hideLoading();
+                
+                // 檢查設備能力
+                this.checkDeviceCapabilities();
+            }
+            
+            /**
+             * 檢查設備能力
+             */
+            checkDeviceCapabilities() {
+                // 檢查觸控支援
+                if ('ontouchstart' in window) {
+                    document.body.classList.add('touch-device');
+                }
+                
+                // 檢查網路狀態
+                if ('onLine' in navigator) {
+                    document.body.classList.toggle('offline', !navigator.onLine);
+                    
+                    window.addEventListener('online', () => {
+                        document.body.classList.remove('offline');
+                        this.showNotification('網路連線已恢復', 'success');
+                    });
+                    
+                    window.addEventListener('offline', () => {
+                        document.body.classList.add('offline');
+                        this.showNotification('網路連線中斷，部分功能可能受限', 'warning');
+                    });
+                }
+            }
+            
+            /**
+             * 載入用戶資料
+             */
+            loadUserData() {
+                try {
+                    // 從記憶體變數中載入（因為不能使用localStorage）
+                    if (window.cefrUserData) {
+                        const userData = window.cefrUserData;
+                        this.userLevel = userData.level;
+                        
+                        if (this.userLevel) {
+                            this.updateLevelDisplay(this.userLevel);
+                        }
+                        
+                        console.log('💾 用戶資料載入成功');
+                    }
+                } catch (error) {
+                    console.warn('⚠️ 用戶資料載入失敗:', error);
+                }
+            }
+            
+            /**
+             * 儲存用戶資料
+             */
+            saveUserData() {
+                try {
+                    const userData = {
+                        level: this.userLevel,
+                        lastAccess: new Date().toISOString()
+                    };
+                    
+                    // 儲存到記憶體變數（因為不能使用localStorage）
+                    window.cefrUserData = userData;
+                    
+                    console.log('💾 用戶資料儲存成功');
+                } catch (error) {
+                    console.error('❌ 用戶資料儲存失敗:', error);
+                }
+            }
+            
+            /**
+             * 顯示載入動畫
+             */
+            showLoading(message = '載入中...') {
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                if (loadingOverlay) {
+                    const messageElement = loadingOverlay.querySelector('p');
+                    if (messageElement) {
+                        messageElement.textContent = message;
+                    }
+                    loadingOverlay.style.display = 'flex';
+                }
+            }
+            
+            /**
+             * 隱藏載入動畫
+             */
+            hideLoading() {
+                const loadingOverlay = document.getElementById('loadingOverlay');
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+            }
+            
+            /**
+             * 顯示通知訊息
+             */
+            showNotification(message, type = 'info', duration = 3000) {
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <span class="notification-icon">${this.getNotificationIcon(type)}</span>
+                        <span class="notification-message">${message}</span>
+                        <button class="notification-close">&times;</button>
+                    </div>
+                `;
+                
+                // 添加到頁面
+                document.body.appendChild(notification);
+                
+                // 動畫顯示
+                setTimeout(() => notification.classList.add('show'), 10);
+                
+                // 自動隱藏
+                const autoHide = setTimeout(() => {
+                    this.hideNotification(notification);
+                }, duration);
+                
+                // 點擊關閉
+                const closeBtn = notification.querySelector('.notification-close');
+                closeBtn.addEventListener('click', () => {
+                    clearTimeout(autoHide);
+                    this.hideNotification(notification);
+                });
+                
+                return notification;
+            }
+            
+            /**
+             * 隱藏通知訊息
+             */
+            hideNotification(notification) {
+                notification.classList.add('hide');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }
+            
+            /**
+             * 取得通知圖示
+             */
+            getNotificationIcon(type) {
+                const icons = {
+                    success: '✓',
+                    error: '✗',
+                    warning: '⚠',
+                    info: 'ℹ'
+                };
+                return icons[type] || icons.info;
+            }
+            
+            /**
+             * 顯示錯誤訊息
+             */
+            showError(message, error = null) {
+                console.error('❌ 錯誤:', message, error);
+                this.showNotification(message, 'error', 5000);
+            }
+            
+            // ==========================================
+            // 事件系統
+            // ==========================================
+            
+            /**
+             * 事件監聽器註冊
+             */
+            on(event, callback) {
+                if (!this.eventHandlers.has(event)) {
+                    this.eventHandlers.set(event, []);
+                }
+                this.eventHandlers.get(event).push(callback);
+            }
+            
+            /**
+             * 事件觸發
+             */
+            emit(event, data = null) {
+                const handlers = this.eventHandlers.get(event);
+                if (handlers) {
+                    handlers.forEach(callback => {
+                        try {
+                            callback(data);
+                        } catch (error) {
+                            console.error(`事件 ${event} 處理器錯誤:`, error);
+                        }
+                    });
+                }
+            }
+            
+            /**
+             * 移除事件監聽器
+             */
+            off(event, callback) {
+                const handlers = this.eventHandlers.get(event);
+                if (handlers) {
+                    const index = handlers.indexOf(callback);
+                    if (index > -1) {
+                        handlers.splice(index, 1);
+                    }
+                }
+            }
+        }
+
+        /**
+         * CEFR分級測驗模組
+         */
+        class AssessmentModule {
+            constructor(app) {
+                this.app = app;
+                this.currentQuestion = 0;
+                this.totalQuestions = 10;
+                this.responses = [];
+                this.abilities = { vocabulary: 0, grammar: 0, comprehension: 0, reasoning: 0 };
+                this.isTestActive = false;
+                
+                // 簡化的測驗題庫
+                this.questionBank = [
+                    {
+                        type: 'vocabulary',
+                        level: 'A1',
+                        question: '選擇 "Hello" 的正確中文意思：',
+                        options: ['再見', '你好', '謝謝', '對不起'],
+                        correct: 1,
+                        ability: 'vocabulary'
+                    },
+                    {
+                        type: 'grammar',
+                        level: 'A1',
+                        question: '選擇正確的句子：',
+                        options: ['I am student.', 'I am a student.', 'I am the student.', 'I student am.'],
+                        correct: 1,
+                        ability: 'grammar'
+                    },
+                    {
+                        type: 'vocabulary',
+                        level: 'A2',
+                        question: '選擇 "beautiful" 的最佳中文翻譯：',
+                        options: ['困難的', '美麗的', '重要的', '危險的'],
+                        correct: 1,
+                        ability: 'vocabulary'
+                    },
+                    {
+                        type: 'grammar',
+                        level: 'A2',
+                        question: '選擇正確的過去式：',
+                        options: ['I go yesterday.', 'I went yesterday.', 'I going yesterday.', 'I goed yesterday.'],
+                        correct: 1,
+                        ability: 'grammar'
+                    },
+                    {
+                        type: 'vocabulary',
+                        level: 'B1',
+                        question: '選擇與 "accomplish" 意思最接近的詞：',
+                        options: ['fail', 'achieve', 'begin', 'forget'],
+                        correct: 1,
+                        ability: 'vocabulary'
+                    },
+                    {
+                        type: 'comprehension',
+                        level: 'B1',
+                        question: '閱讀後回答："Although the weather was terrible, the concert was successful." 主要意思是：',
+                        options: ['天氣很好', '音樂會失敗', '儘管天氣糟糕，音樂會成功', '很少人參加'],
+                        correct: 2,
+                        ability: 'comprehension'
+                    },
+                    {
+                        type: 'vocabulary',
+                        level: 'B2',
+                        question: '選擇最適合的詞語："The company decided to ___ their strategy."',
+                        options: ['modify', 'destroy', 'ignore', 'copy'],
+                        correct: 0,
+                        ability: 'vocabulary'
+                    },
+                    {
+                        type: 'reasoning',
+                        level: 'B2',
+                        question: '邏輯推理："All birds can fly. Penguins are birds. Therefore..."',
+                        options: ['企鵝會飛', '企鵝不會飛', '企鵝不是鳥', '邏輯有誤'],
+                        correct: 3,
+                        ability: 'reasoning'
+                    },
+                    {
+                        type: 'vocabulary',
+                        level: 'C1',
+                        question: '選擇最精確的詞語："His argument was very ___."',
+                        options: ['loud', 'cogent', 'popular', 'lengthy'],
+                        correct: 1,
+                        ability: 'vocabulary'
+                    },
+                    {
+                        type: 'comprehension',
+                        level: 'C1',
+                        question: '理解學術文本中 "paradigm shift" 的含義：',
+                        options: ['小改變', '重大變革', '回到過去', '保持現狀'],
+                        correct: 1,
+                        ability: 'comprehension'
+                    }
+                ];
+                
+                this.init();
+            }
+            
+            init() {
+                console.log('📝 CEFR分級測驗模組初始化');
+                this.setupEventListeners();
+            }
+            
+            setupEventListeners() {
+                const startBtn = document.getElementById('startAssessment');
+                if (startBtn) {
+                    startBtn.addEventListener('click', () => this.startAssessment());
+                }
+                
+                const prevBtn = document.getElementById('prevQuestion');
+                const nextBtn = document.getElementById('nextQuestion');
+                const finishBtn = document.getElementById('finishTest');
+                
+                if (prevBtn) prevBtn.addEventListener('click', () => this.previousQuestion());
+                if (nextBtn) nextBtn.addEventListener('click', () => this.nextQuestion());
+                if (finishBtn) finishBtn.addEventListener('click', () => this.finishAssessment());
+                
+                const startLearningBtn = document.getElementById('startLearning');
+                if (startLearningBtn) {
+                    startLearningBtn.addEventListener('click', () => this.startLearningJourney());
+                }
+            }
+            
+            startAssessment() {
+                console.log('🎯 開始CEFR分級測驗');
+                
+                // 隱藏介紹，顯示測驗
+                document.querySelector('.assessment-intro').style.display = 'none';
+                document.querySelector('.level-overview').style.display = 'none';
+                document.querySelector('.assessment-test').style.display = 'block';
+                
+                // 重置測驗狀態
+                this.currentQuestion = 0;
+                this.responses = [];
+                this.isTestActive = true;
+                
+                // 顯示第一題
+                this.showQuestion(0);
+                this.updateProgress();
+            }
+            
+            showQuestion(questionIndex) {
+                if (questionIndex < 0 || questionIndex >= this.questionBank.length) {
+                    return;
+                }
+                
+                const question = this.questionBank[questionIndex];
+                
+                // 更新題目內容
+                const questionText = document.getElementById('questionText');
+                const optionsContainer = document.getElementById('optionsContainer');
+                const questionType = document.getElementById('questionType');
+                const questionLevel = document.getElementById('questionLevel');
+                
+                if (questionText) {
+                    questionText.textContent = question.question;
+                }
+                
+                if (questionType) {
+                    const typeNames = {
+                        'vocabulary': '詞彙測試',
+                        'grammar': '語法測試',
+                        'comprehension': '理解測試',
+                        'reasoning': '邏輯推理'
+                    };
+                    questionType.textContent = typeNames[question.type] || question.type;
+                }
+                
+                if (questionLevel) {
+                    questionLevel.textContent = question.level;
+                }
+                
+                // 生成選項
+                if (optionsContainer) {
+                    optionsContainer.innerHTML = '';
+                    question.options.forEach((option, index) => {
+                        const optionLabel = document.createElement('label');
+                        optionLabel.className = 'option-label';
+                        optionLabel.innerHTML = `
+                            <input type="radio" name="question-answer" value="${index}">
+                            <span class="option-text">${option}</span>
+                        `;
+                        optionsContainer.appendChild(optionLabel);
+                    });
+                    
+                    // 如果已經回答過，恢復選擇
+                    const previousAnswer = this.responses[questionIndex];
+                    if (previousAnswer !== undefined) {
+                        const radioButton = optionsContainer.querySelector(`input[value="${previousAnswer}"]`);
+                        if (radioButton) {
+                            radioButton.checked = true;
+                        }
+                    }
+                }
+                
+                // 更新按鈕狀態
+                this.updateNavigationButtons();
+                this.updateProgress();
+            }
+            
+            previousQuestion() {
+                if (this.currentQuestion > 0) {
+                    this.saveCurrentAnswer();
+                    this.currentQuestion--;
+                    this.showQuestion(this.currentQuestion);
+                }
+            }
+            
+            nextQuestion() {
+                this.saveCurrentAnswer();
+                
+                if (this.currentQuestion < this.questionBank.length - 1) {
+                    this.currentQuestion++;
+                    this.showQuestion(this.currentQuestion);
+                }
+            }
+            
+            saveCurrentAnswer() {
+                const selectedOption = document.querySelector('input[name="question-answer"]:checked');
+                if (selectedOption) {
+                    this.responses[this.currentQuestion] = parseInt(selectedOption.value);
+                }
+            }
+            
+            updateNavigationButtons() {
+                const prevBtn = document.getElementById('prevQuestion');
+                const nextBtn = document.getElementById('nextQuestion');
+                const finishBtn = document.getElementById('finishTest');
+                
+                if (prevBtn) {
+                    prevBtn.disabled = this.currentQuestion === 0;
+                }
+                
+                const isLastQuestion = this.currentQuestion === this.questionBank.length - 1;
+                
+                if (nextBtn && finishBtn) {
+                    if (isLastQuestion) {
+                        nextBtn.style.display = 'none';
+                        finishBtn.style.display = 'inline-flex';
+                    } else {
+                        nextBtn.style.display = 'inline-flex';
+                        finishBtn.style.display = 'none';
+                    }
+                }
+            }
+            
+            updateProgress() {
+                const progressFill = document.getElementById('assessmentProgressFill');
+                const progressText = document.getElementById('assessmentProgressText');
+                
+                const progress = ((this.currentQuestion + 1) / this.questionBank.length) * 100;
+                
+                if (progressFill) {
+                    progressFill.style.width = `${progress}%`;
+                }
+                
+                if (progressText) {
+                    progressText.textContent = `${this.currentQuestion + 1} / ${this.questionBank.length}`;
+                }
+            }
+            
+            finishAssessment() {
+                this.saveCurrentAnswer();
+                
+                // 計算結果
+                this.calculateResults();
+                
+                // 顯示結果
+                this.showResults();
+                
+                console.log('✅ CEFR分級測驗完成');
+            }
+            
+            calculateResults() {
+                let totalScore = 0;
+                let abilityScores = {
+                    vocabulary: { correct: 0, total: 0 },
+                    grammar: { correct: 0, total: 0 },
+                    comprehension: { correct: 0, total: 0 },
+                    reasoning: { correct: 0, total: 0 }
+                };
+                
+                // 計算各題得分
+                this.questionBank.forEach((question, index) => {
+                    const userAnswer = this.responses[index];
+                    const isCorrect = userAnswer === question.correct;
+                    
+                    if (isCorrect) {
+                        totalScore++;
+                        abilityScores[question.ability].correct++;
+                    }
+                    abilityScores[question.ability].total++;
+                });
+                
+                // 計算各能力維度百分比
+                Object.keys(abilityScores).forEach(ability => {
+                    const { correct, total } = abilityScores[ability];
+                    this.abilities[ability] = total > 0 ? Math.round((correct / total) * 100) : 0;
+                });
+                
+                // 計算總體得分率
+                const overallScore = Math.round((totalScore / this.questionBank.length) * 100);
+                
+                // 根據得分確定CEFR級別
+                const cefrLevel = this.determineCEFRLevel(overallScore);
+                
+                // 儲存結果到應用程式狀態
+                this.app.setUserLevel(cefrLevel, this.abilities);
+            }
+            
+            determineCEFRLevel(overallScore) {
+                if (overallScore >= 90) return 'C2';
+                if (overallScore >= 80) return 'C1';
+                if (overallScore >= 70) return 'B2';
+                if (overallScore >= 60) return 'B1';
+                if (overallScore >= 50) return 'A2';
+                return 'A1';
+            }
+            
+            showResults() {
+                // 隱藏測驗，顯示結果
+                document.querySelector('.assessment-test').style.display = 'none';
+                document.querySelector('.assessment-result').style.display = 'block';
+                
+                // 更新級別顯示
+                const levelBadge = document.getElementById('finalLevelBadge');
+                const levelTitle = document.getElementById('levelTitle');
+                const levelDescription = document.getElementById('levelDescription');
+                
+                const levelInfo = this.app.cefrLevels[this.app.userLevel];
+                
+                if (levelBadge) {
+                    levelBadge.textContent = this.app.userLevel;
+                    levelBadge.className = `final-level-badge level-badge ${this.app.userLevel.toLowerCase()}`;
+                    levelBadge.style.width = '100px';
+                    levelBadge.style.height = '100px';
+                    levelBadge.style.borderRadius = '50%';
+                    levelBadge.style.display = 'flex';
+                    levelBadge.style.alignItems = 'center';
+                    levelBadge.style.justifyContent = 'center';
+                    levelBadge.style.fontSize = '2rem';
+                    levelBadge.style.fontWeight = '700';
+                    levelBadge.style.margin = '0 auto 1rem';
+                }
+                
+                if (levelTitle) {
+                    levelTitle.textContent = levelInfo.name;
+                }
+                
+                if (levelDescription) {
+                    levelDescription.textContent = `您能${levelInfo.description}`;
+                }
+            }
+            
+            startLearningJourney() {
+                this.app.switchModule('flashcard');
+            }
+            
+            onShow() {
+                if (this.app.userLevel) {
+                    // 已完成測驗，顯示結果
+                    document.querySelector('.assessment-intro').style.display = 'none';
+                    document.querySelector('.level-overview').style.display = 'none';
+                    document.querySelector('.assessment-test').style.display = 'none';
+                    document.querySelector('.assessment-result').style.display = 'block';
+                    this.showResults();
+                } else {
+                    // 尚未完成測驗，顯示介紹
+                    document.querySelector('.assessment-intro').style.display = 'block';
+                    document.querySelector('.level-overview').style.display = 'grid';
+                    document.querySelector('.assessment-test').style.display = 'none';
+                    document.querySelector('.assessment-result').style.display = 'none';
+                }
+            }
+        }
+
+        /**
+         * 智能單詞卡片模組
+         */
+        class FlashcardModule {
+            constructor(app) {
+                this.app = app;
+                this.currentCard = 0;
+                this.vocabulary = [];
+                this.isFlipped = false;
+                
+                // 分級詞彙庫
+                this.vocabularyDatabase = {
+                    A1: [
+                        { word: 'hello', phonetic: '/həˈləʊ/', meaning: '你好，哈囉', etymology: '來自古英語 hǣl', examples: [{ english: 'Hello, how are you?', chinese: '你好，你好嗎？' }] },
+                        { word: 'cat', phonetic: '/kæt/', meaning: '貓', etymology: '來自古英語 catt', examples: [{ english: 'I have a cat.', chinese: '我有一隻貓。' }] }
+                    ],
+                    A2: [
+                        { word: 'beautiful', phonetic: '/ˈbjuːtɪfʊl/', meaning: '美麗的', etymology: '來自古法語 beaute', examples: [{ english: 'She is beautiful.', chinese: '她很美麗。' }] },
+                        { word: 'important', phonetic: '/ɪmˈpɔːrtənt/', meaning: '重要的', etymology: '來自拉丁語 importare', examples: [{ english: 'This is important.', chinese: '這很重要。' }] }
+                    ],
+                    B1: [
+                        { word: 'environment', phonetic: '/ɪnˈvaɪrənmənt/', meaning: '環境', etymology: '來自古法語 environ', examples: [{ english: 'Protect the environment.', chinese: '保護環境。' }] },
+                        { word: 'opportunity', phonetic: '/ˌɒpərˈtuːnɪti/', meaning: '機會', etymology: '來自拉丁語 opportunitas', examples: [{ english: 'Great opportunity!', chinese: '好機會！' }] }
+                    ],
+                    B2: [
+                        { word: 'sophisticated', phonetic: '/səˈfɪstɪkeɪtɪd/', meaning: '複雜的', etymology: '來自希臘語 sophistēs', examples: [{ english: 'Sophisticated system.', chinese: '複雜的系統。' }] },
+                        { word: 'nevertheless', phonetic: '/ˌnevərðəˈles/', meaning: '然而', etymology: '來自 never + the + less', examples: [{ english: 'Nevertheless, we succeeded.', chinese: '然而，我們成功了。' }] }
+                    ],
+                    C1: [
+                        { word: 'ubiquitous', phonetic: '/juːˈbɪkwɪtəs/', meaning: '無所不在的', etymology: '來自拉丁語 ubique', examples: [{ english: 'Smartphones are ubiquitous.', chinese: '智慧手機無所不在。' }] },
+                        { word: 'paradigm', phonetic: '/ˈpærədaɪm/', meaning: '典範', etymology: '來自希臘語 paradeigma', examples: [{ english: 'New paradigm in education.', chinese: '教育新典範。' }] }
+                    ],
+                    C2: [
+                        { word: 'perspicacious', phonetic: '/ˌpɜːspɪˈkeɪʃəs/', meaning: '洞察力敏銳的', etymology: '來自拉丁語 perspicax', examples: [{ english: 'Perspicacious analysis.', chinese: '敏銳的分析。' }] }
+                    ]
+                };
+                
+                this.init();
+            }
+            
+            init() {
+                console.log('📚 單詞卡片模組初始化');
+                this.setupEventListeners();
+                this.loadLeveledVocabulary();
+            }
+            
+            setupEventListeners() {
+                const flipBtn = document.getElementById('flipCard');
+                const prevBtn = document.getElementById('prevCard');
+                const nextBtn = document.getElementById('nextCard');
+                
+                if (flipBtn) flipBtn.addEventListener('click', () => this.flipCard());
+                if (prevBtn) prevBtn.addEventListener('click', () => this.previousCard());
+                if (nextBtn) nextBtn.addEventListener('click', () => this.nextCard());
+                
+                // 監聽級別變更
+                this.app.on('levelChanged', (data) => {
+                    this.loadLeveledVocabulary(data.level);
+                });
+            }
+            
+            loadLeveledVocabulary(level = null) {
+                const userLevel = level || this.app.userLevel || 'A1';
+                console.log(`📖 載入 ${userLevel} 級別詞彙`);
+                
+                // 載入當前級別及以下的詞彙
+                this.vocabulary = [];
+                const levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+                const currentLevelIndex = levels.indexOf(userLevel);
+                
+                for (let i = 0; i <= currentLevelIndex; i++) {
+                    const levelVocab = this.vocabularyDatabase[levels[i]] || [];
+                    this.vocabulary.push(...levelVocab);
+                }
+                
+                // 打亂順序
+                this.vocabulary = this.shuffleArray(this.vocabulary);
+                
+                // 重置卡片狀態
+                this.currentCard = 0;
+                this.isFlipped = false;
+                
+                // 更新顯示
+                this.updateLevelDisplay(userLevel);
+                this.showCurrentCard();
+                this.updateProgress();
+            }
+            
+            updateLevelDisplay(level) {
+                const levelElement = document.getElementById('flashcardLevel');
+                if (levelElement) {
+                    levelElement.textContent = level;
+                    levelElement.className = `current-level level-badge ${level.toLowerCase()}`;
+                }
+            }
+            
+            showCurrentCard() {
+                if (this.vocabulary.length === 0) {
+                    this.showNoVocabularyMessage();
+                    return;
+                }
+                
+                const word = this.vocabulary[this.currentCard];
+                if (!word) return;
+                
+                // 更新正面內容
+                this.updateCardFront(word);
+                
+                // 更新背面內容
+                this.updateCardBack(word);
+                
+                // 重置翻轉狀態
+                this.resetFlipState();
+                
+                // 更新進度
+                this.updateProgress();
+            }
+            
+            updateCardFront(word) {
+                const elements = {
+                    badge: document.getElementById('wordLevelBadge'),
+                    main: document.getElementById('wordMain'),
+                    phonetic: document.getElementById('wordPhonetic')
+                };
+                
+                if (elements.badge) {
+                    const level = this.getWordLevel(word);
+                    elements.badge.textContent = level;
+                    elements.badge.className = `word-level-badge level-badge ${level.toLowerCase()}`;
+                }
+                
+                if (elements.main) {
+                    elements.main.textContent = word.word;
+                }
+                
+                if (elements.phonetic) {
+                    elements.phonetic.textContent = word.phonetic;
+                }
+            }
+            
+            updateCardBack(word) {
+                const elements = {
+                    meaning: document.getElementById('wordMeaning'),
+                    etymology: document.getElementById('wordEtymology'),
+                    exampleEn: document.getElementById('exampleEnglish'),
+                    exampleZh: document.getElementById('exampleChinese')
+                };
+                
+                if (elements.meaning) {
+                    elements.meaning.textContent = word.meaning;
+                }
+                
+                if (elements.etymology) {
+                    elements.etymology.textContent = word.etymology;
+                }
+                
+                const randomExample = word.examples[0]; // 使用第一個例句
+                
+                if (elements.exampleEn) {
+                    elements.exampleEn.textContent = randomExample.english;
+                }
+                
+                if (elements.exampleZh) {
+                    elements.exampleZh.textContent = randomExample.chinese;
+                }
+            }
+            
+            getWordLevel(word) {
+                // 根據詞彙庫找出單詞級別
+                for (const [level, words] of Object.entries(this.vocabularyDatabase)) {
+                    if (words.some(w => w.word === word.word)) {
+                        return level;
+                    }
+                }
+                return 'A1';
+            }
+            
+            flipCard() {
+                const cardElement = document.getElementById('flashcard3D');
+                if (!cardElement) return;
+                
+                this.isFlipped = !this.isFlipped;
+                cardElement.classList.toggle('flipped', this.isFlipped);
+                
+                const flipBtn = document.getElementById('flipCard');
+                if (flipBtn) {
+                    flipBtn.textContent = this.isFlipped ? '翻回' : '翻轉';
+                }
+            }
+            
+            resetFlipState() {
+                const cardElement = document.getElementById('flashcard3D');
+                if (!cardElement) return;
+                
+                this.isFlipped = false;
+                cardElement.classList.remove('flipped');
+                
+                const flipBtn = document.getElementById('flipCard');
+                if (flipBtn) {
+                    flipBtn.textContent = '翻轉';
+                }
+            }
+            
+            previousCard() {
+                if (this.vocabulary.length === 0) return;
+                
+                this.currentCard = (this.currentCard - 1 + this.vocabulary.length) % this.vocabulary.length;
+                this.showCurrentCard();
+            }
+            
+            nextCard() {
+                if (this.vocabulary.length === 0) return;
+                
+                this.currentCard = (this.currentCard + 1) % this.vocabulary.length;
+                this.showCurrentCard();
+            }
+            
+            updateProgress() {
+                const progressElement = document.getElementById('cardProgress');
+                const progressFillElement = document.getElementById('cardProgressFill');
+                
+                if (progressElement) {
+                    progressElement.textContent = `${this.currentCard + 1} / ${this.vocabulary.length}`;
+                }
+                
+                if (progressFillElement && this.vocabulary.length > 0) {
+                    const progress = ((this.currentCard + 1) / this.vocabulary.length) * 100;
+                    progressFillElement.style.width = `${progress}%`;
+                }
+            }
+            
+            showNoVocabularyMessage() {
+                const cardElement = document.getElementById('flashcard3D');
+                if (cardElement) {
+                    cardElement.innerHTML = `
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem; text-align: center; background: var(--bg-primary); border-radius: 1rem;">
+                            <h3>暫無詞彙</h3>
+                            <p>請先完成分級測驗以載入適合的詞彙</p>
+                            <button class="btn btn-primary" onclick="app.switchModule('assessment')">
+                                前往分級測驗
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+            
+            onShow() {
+                if (this.vocabulary.length === 0) {
+                    this.loadLeveledVocabulary();
+                }
+            }
+            
+            shuffleArray(array) {
+                const shuffled = [...array];
+                for (let i = shuffled.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+                }
+                return shuffled;
+            }
+        }
+
+        /**
+         * 多模式閱讀模組
+         */
+        class ReadingModule {
+            constructor(app) {
+                this.app = app;
+                this.init();
+            }
+            
+            init() {
+                console.log('📖 閱讀模組初始化');
+            }
+            
+            onShow() {
+                console.log('📖 閱讀模組已顯示');
+            }
+        }
+
+        /**
+         * 理解測試評估模組
+         */
+        class QuizModule {
+            constructor(app) {
+                this.app = app;
+                this.init();
+            }
+            
+            init() {
+                console.log('🧠 測試模組初始化');
+            }
+            
+            onShow() {
+                console.log('🧠 測試模組已顯示');
+            }
+        }
+
+        /**
+         * 個性化成就海報模組
+         */
+        class PosterModule {
+            constructor(app) {
+                this.app = app;
+                this.init();
+            }
+            
+            init() {
+                console.log('🏆 海報模組初始化');
+            }
+            
+            onShow() {
+                console.log('🏆 海報模組已顯示');
+            }
+        }
+
+        // 全域變數
+        let app;
+
         // 應用程式啟動
         document.addEventListener('DOMContentLoaded', function() {
-            const app = new CEFRLearningApp();
+            app = new CEFRLearningApp();
             app.init();
         });
     </script>
